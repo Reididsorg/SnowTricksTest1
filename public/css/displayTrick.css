@@ -1,0 +1,29 @@
+.trickImage, .trickVideo {
+    margin: 20px;
+}
+
+.trickVideo iframe {
+    padding: 0 20px;
+}
+
+#mainImage {
+    position: relative;
+    text-align: center;
+}
+
+#mainImage .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#mainImage .centered h1 {
+    color: #AF2A63;
+    font-size: 5rem;
+    font-weight: bolder;
+}
+
+i.fas-plus {
+    color: #FFFFFF;
+}

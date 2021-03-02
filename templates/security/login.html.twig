@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    {% endblock %}
+
+    {% block title %}SnowTricks - Créer un trick{% endblock %}
+
+    {% block content %}
+
+        <div class="page-wrapper">
+
+            <div id="signin" class="content col-lg-5 col-md-8 mx-auto my-auto">
+
+                <h1 class="text-center">Connexion</h1>
+
+                <!-- Error messages -->
+                {% if error %}
+                    <div class="alert alert-danger text-center">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+
+                {# {{ dump(form) }} #}
+                {{ form_start(form) }}
+                    {# {{ form_widget(form) }} #}
+                    {{ form_row(form.username, {value: lastUsername}) }}
+                    {{ form_errors(form.username) }}
+
+                    {{ form_row(form.password) }}
+
+                <button type="submit" class="btn btn-success" formnovalidate>
+                        <i class="fas fa-download"></i> Se connecter
+                    </button>
+                {{ form_end(form) }}
+
+                <p class="text-center"><a href="{{ path('app_registration') }}">Créer un compte</a></p>
+
+                <p class="text-center"><a href="/#">Vous avez oublié votre mot de passe ?</a></p>
+
+            </div>
+
+        </div>
+
+        {# {{ dump(app.session) }} #}
+        {{ dump(app.user) }}
+
+        {% dump(app.session) %}
+        {% dump(app.user) %}
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/login.js') }}"></script>
+    {% endblock %}

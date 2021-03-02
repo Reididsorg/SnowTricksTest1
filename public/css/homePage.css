@@ -1,0 +1,62 @@
+#carousel-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23AF2A63' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23AF2A63' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.container {
+    background-color: #fff;
+}
+
+ol.carousel-indicators, ol.carousel-indicators li {
+
+}
+
+#carouselExampleIndicators {
+    /*margin-bottom: 30px;*/
+}
+
+.card {
+    margin-bottom: 30px;
+}
+
+.card-body {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.a-card-pencil {
+    margin-right: 10px;
+}
+
+#anchor-down {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: #000;
+    z-index: 1;
+}
+
+#anchor-up {
+    position: absolute;
+    right: 10px;
+    color: #000;
+    z-index: 1;
+}
+
+#tricks-gallery {
+    margin-top: 20px;
+}
+
+#seeMoreTricks {
+    margin-bottom: 50px;
+    background-color: #AF2A63;
+    color: #FFFFFF;
+}
