@@ -34,7 +34,6 @@
                                         {% if app.user %}
                                             <div class="float-right">
                                                 <a href="edit{{ path('app_displayTrick', {'slug': trick.slug}) }}" class="a-card-pencil"><i class="fas fa-pencil-alt"></i></a>
-                                                {# <a href="remove{{ path('app_displayTrick', {'slug': trick.slug}) }}" class="a-card-trash" onclick="return confirm(`Êtes-vous sûr de vouloir supprimer le trick "{{trick.name}}" ?`)"><i class="fas fa-trash-alt"></i></a> #}
                                                 <a id="remove-trick-{{ trick.slug }}" data-toggle="modal" data-target="#removeTrickModal" href="#" class="a-card-trash"><i class="fas fa-trash-alt"></i></a>
                                                 <div class="modal fade" id="removeTrickModal" tabindex="-1" role="dialog">
                                                     <div class="modal-dialog" role="document">

@@ -29,19 +29,6 @@
             </div>
         {% endfor %}
 
-        <!-- Header -->
-        {% if app.request.get('logout') == "success" %}
-            <p>Vous avez été correctement déconnecté. Au revoir !</p>
-        {% endif %}
-
-        {#
-        <div class="alert alert-success">
-            <!--Super ! Ton inscription a bien été enregistrée :)-->
-            {{ dump(app.session) }}
-        </div>
-        #}
-
-
         <!-- Content -->
         {% block content %}{% endblock %}
 

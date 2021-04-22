@@ -15,41 +15,10 @@
 
                 <h1 class="text-center">Inscription</h1>
 
-                {# {{ dump(form) }} #}
                 {{ form_start(form) }}
-
-                    <!--<div class="form-errors">
-                        {# {{ form_errors(form) }} #}
-                    </div>-->
-
-                    {#
-                    {% if not form.vars.valid %}
-                        <ul>
-                            {% for child in form.children %}
-                                {%for error in child.vars.errors%}
-                                    <li class="alert alert-danger text-center">{{error.message}}</li>
-                                {%endfor%}
-                            {%endfor%}
-                        </ul>
-                    {%endif%}
-                    #}
-
                     {{ form_row(form.username) }}
-                    {#
-                    {% if form_errors(form.username) %}
-                        <div class="alert alert-danger">{{ form_errors(form.username) }}</div>
-                    {% endif %}
-                    #}
-
                     {{ form_row(form.email) }}
-
                     {{ form_row(form.password) }}
-                    {#
-                    {% if form_errors(form.password) %}
-                        <div class="alert alert-danger">{{ form_errors(form.password) }}</div>
-                    {% endif %}
-                    #}
-
                     <button type="submit" class="btn btn-success" formnovalidate>
                         <i class="fas fa-download"></i> Créer le compte
                     </button>
