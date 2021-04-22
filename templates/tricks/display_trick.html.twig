@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/displayTrick.css') }}">
+    {% endblock %}
+
+    {% block title %}SnowTricks - Trick{% endblock %}
+
+    {% block content %}
+
+        {# {{ dump(trick) }} #}
+
+        <div class="page-wrapper">
+
+            <div class="content col-lg-10 col-md-10 mx-auto bg-light">
+
+                <div id="mainImage">
+                    <img src="{{ asset(trick.mainImage.path) }}" alt="{{ trick.mainImage.alt }}" style="width: 100%;">
+                    <div class="centered">
+                        <h1>{{ trick.name }}</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="trickDescription" class="col-11 mx-auto mt-4 mb-1">
+                        <h3>Description :</h3>
+                        {{ trick.description | raw }}
+                    </div>
+                </div>
+
+                <div class="row" id="trickImages">
+                    {% for image in trick.images %}
+
+                        {# {{ dump(image) }} #}
+
+                        {% if image.main == false %}
+                            <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                <img src="{{ asset(image.path) }}" width="100%" alt="{{ image.alt }}">
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                </div>
+
+                <div class="row" id="trickVideos">
+                    {% for video in trick.videos %}
+
+                        {# {{ dump(video) }} #}
+                        <div class="trickVideo col-sm-12 col-md-12 col-lg-10 col-xl-6 mx-auto mt-4 mb-1 embed-responsive embed-responsive-16by9">
+                            <iframe
+                                    src="{{ asset(video.url) }}">
+                            </iframe>
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+                    <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
+                        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par XX</p>
+                        <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
+                        <p class="col">Catégorie : {{ trick.category.name }}</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/createTrick.js') }}"></script>
+    {% endblock %}

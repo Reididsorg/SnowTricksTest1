@@ -1,3 +1,9 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+<<<<<<< HEAD
+app_logout:
+  path: /logout
+  methods: GET
+=======
+>>>>>>> develop

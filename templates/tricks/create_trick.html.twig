@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/createTrick.css') }}">
+    {% endblock %}
+
+    {% block title %}SnowTricks - Créer un trick{% endblock %}
+
+    {% block content %}
+
+        <div class="page-wrapper">
+
+            <div id="create-trick" class="content col-lg-5 col-md-8 mx-auto">
+
+                <h1 class="text-center">Créer un nouveau trick</h1>
+
+                <!-- Form -->
+                {{ form_start(form) }}
+
+                    {{ form_errors(form) }}
+
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.category) }}
+
+                    {{ form_row(form.mainImage) }}
+
+                    <fieldset class="form-group">
+                        <label>Image(s)</label>
+                        <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                            {% for image in form.images %}
+                                <li>{{ form_row(image.name) }}</li>
+                                <li>{{ form_row(image.alt) }}</li>
+                                <li>{{ form_row(image.path) }}</li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="add_item_link btn btn-dark" data-collection-holder-class="images">
+                            <i class="fas fa-plus"></i> Ajouter une image
+                        </button>
+
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <label>Video(s)</label>
+                        <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+                            {% for video in form.videos %}
+                                <li>{{ form_row(video.name) }}</li>
+                                <li>{{ form_row(video.url) }}</li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="add_item_link btn btn-dark" data-collection-holder-class="videos">
+                            <i class="fas fa-plus"></i> Ajouter une vidéo
+                        </button>
+                    </fieldset>
+
+                    <button type="submit" class="btn btn-success" formnovalidate>
+                        <i class="fas fa-download"></i> Créer le trick
+                    </button>
+                {{ form_end(form) }}
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/createTrick.js') }}"></script>
+    {% endblock %}
