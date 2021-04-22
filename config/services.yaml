@@ -10,12 +10,9 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-<<<<<<< HEAD
         bind:
             $targetDirectory: '%kernel.project_dir%/public/img/tricks/uploads'
             $appUploadsDirectory: '/img/tricks/uploads/'
-=======
->>>>>>> develop
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -33,14 +30,11 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
-<<<<<<< HEAD
     App\Listeners\LogoutListener:
         tags:
             -   name: 'kernel.event_listener'
                 event: 'Symfony\Component\Security\Http\Event\LogoutEvent'
                 dispatcher: security.event_dispatcher.main
 
-=======
->>>>>>> develop
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
