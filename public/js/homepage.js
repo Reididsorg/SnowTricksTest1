@@ -11,11 +11,18 @@ $('#seeMoreTricks').on('click', function(e) {
     /*console.warn(url);*/
     click++;
     var offset = 15 * click;
+
+    console.warn(offset);
+
+    var newUrl = '/seemoretricks/' + offset;
+
     $.ajax({
         /*url: '/seemoretricks/' + offset,*/
-        url: url + offset,
+        /*url: url + offset,*/
+        url: newUrl,
         method: 'POST'
     }).then(function(data) {
+        console.warn(data);
         $('#tricksList').append(data);
     });
 });

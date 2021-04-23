@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     {% endblock %}
 
-    {% block title %}SnowTricks - Créer un trick{% endblock %}
+    {% block title %}SnowTricks - Mon compte{% endblock %}
 
     {% block content %}
 
@@ -13,18 +13,17 @@
 
             <div id="signin" class="content col-lg-5 col-md-8 mx-auto my-auto">
 
-                <h1 class="text-center">Inscription</h1>
+                <h1 class="text-center">Mon compte</h1>
 
                 {{ form_start(form) }}
-                    {{ form_row(form.username) }}
-                    {{ form_row(form.email) }}
-                    {{ form_row(form.password) }}
-                    <button type="submit" class="btn btn-success" formnovalidate>
-                        <i class="fas fa-download"></i> Créer le compte
-                    </button>
-                {{ form_end(form) }}
 
-                <p class="text-center"><a href="{{ path('app_login') }}">Vous possédez déjà un compte ?</a></p>
+                    {{ form_widget(form) }}
+
+                    <button type="submit" class="btn btn-success" formnovalidate>
+                        <i class="fas fa-download"></i> Enregistrer les modifications
+                    </button>
+
+                {{ form_end(form) }}
 
             </div>
 

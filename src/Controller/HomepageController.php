@@ -41,15 +41,20 @@ class HomepageController extends AbstractController
     }
 
     /**
-     * @Route("/seemoretricks/{offset}", name="app_seeMoreTricks")
+     * @Route("/seemoretricks/{offset}", name="app_see_more_tricks")
      */
     public function seeMoreTricks($offset)
     {
+        dump($offset);
+
         //$moreTricks = $this->trickRepository->findBy([], ['createdAt' => 'DESC'], 15, $offset);
         $moreTricks = $this->trickRepository->getTricks($offset, 15);
 
+        dump($moreTricks);
+
         return $this->render('tricks/see_more_tricks.html.twig', [
-            'moreTricks' => $moreTricks,
+            //'moreTricks' => $moreTricks,
+            'tricks' => $moreTricks,
         ]);
 
     }

@@ -229,6 +229,7 @@ class Trick extends AbstractEntity
     }
 
 
+
     public function getMainImage(): ?Image
     {
         return $this->mainImage;
@@ -239,6 +240,7 @@ class Trick extends AbstractEntity
     {
         $this->mainImage = $mainImage;
     }
+
 
     /**
      * @return mixed

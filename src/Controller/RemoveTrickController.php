@@ -35,7 +35,7 @@ class RemoveTrickController extends BaseController
     }
 
     /**
-     * @Route("/remove/tricks/{slug}", name="app_removeTrick")
+     * @Route("/remove/tricks/{slug}", name="app_remove_trick")
      */
     public function removeTrick($slug)
     {
