@@ -60,26 +60,23 @@ class TrickType extends AbstractType
                     'placeholder' => 'Choisir une catégorie'
                 ]
             )
-            ->add(
-                'mainImage',
-                ImageType::class,
-                [
-                    'label' => 'Image principale'/*,
-                    'error_mapping' => [
-                        '.' => 'path',
-                    ]*/
-                ]
-            )
-            ->add(
-                'images',
-                CollectionType::class, [
-                    'entry_type' => ImageType::class,
-                    'label' => false,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'delete_empty' =>true
-                ]
-            )
+//            ->add(
+//                'mainImage',
+//                ImageType::class,
+//                [
+//                    'label' => 'Image principale'
+//                ]
+//            )
+//            ->add(
+//                'images',
+//                CollectionType::class, [
+//                    'entry_type' => ImageType::class,
+//                    'label' => false,
+//                    'allow_add' => true,
+//                    'allow_delete' => true,
+//                    'delete_empty' =>true
+//                ]
+//            )
             ->add('videos',
                 CollectionType::class, [
                     'entry_type' => VideoType::class,

@@ -23,44 +23,15 @@
                     {% set tricksCounter = 0 %}
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5" id="tricksList">
                     {% for trick in tricks %}
-                        <div class="col">
-                            <div class="card">
-                                <a href="{{ path('app_displayTrick', {'slug': trick.slug}) }}">
-                                    <img src="{{ trick.mainImage.path }}" class="card-img-top" alt="">
-                                    <div class="card-body">
-                                        <h5 class="card-title float-left">
-                                            {{ trick.name }}
-                                        </h5>
-                                        {% if app.user %}
-                                            <div class="float-right">
-                                                <a href="edit{{ path('app_displayTrick', {'slug': trick.slug}) }}" class="a-card-pencil"><i class="fas fa-pencil-alt"></i></a>
-                                                <a id="remove-trick-{{ trick.slug }}" data-toggle="modal" data-target="#removeTrickModal" href="#" class="a-card-trash"><i class="fas fa-trash-alt"></i></a>
-                                                <div class="modal fade" id="removeTrickModal" tabindex="-1" role="dialog">
-                                                    <div class="modal-dialog" role="document">
-                                                        <div class="modal-content">
-                                                            <div id="modal-title" class="modal-body d-flex justify-content-center">
-                                                                Voulez-vous vraiment supprimer le trick "{{trick.name}}" ?<br>
-                                                            </div>
-                                                            <div class="modal-footer d-flex justify-content-center">
-                                                                <a href="#" class="btn btn-secondary btn-md" role="button" data-dismiss="modal">NON</a>
-                                                                <a id="modal-remove-trick" href="#" class="btn btn-danger btn-md" role="button">OUI, je veux vraiment supprimer ce trick !</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        {{ include('tricks/_inc/thumbnail_trick.html.twig') }}
                     {% endfor %}
                     </div>
 
                     <!-- See more button -->
                     <div class="row">
                         <div class="col-12 text-center">
-                            <button id="seeMoreTricks" class="btn" data-urlmore="{{ path('app_seeMoreTricks', {'offset': 0}) }}">Encore plus de tricks</button>
+                            <button id="seeMoreTricks" class="btn" data-urlmore="{{ path('app_see_more_tricks', {'offset': 0}) }}">Encore plus de tricks</button>
+                            {# <button id="seeMoreTricks" class="btn" data-urlmore="{{ path('app_see_more_tricks', {'offset': 0}) }}">Encore plus de tricks</button> #}
                         </div>
                     </div>
                     <a href="#tricks" id="anchor-up"><i class="fas fa-arrow-up fa-2x"></i></a>

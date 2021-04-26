@@ -11,8 +11,8 @@ use Twig\Environment;
 
 class DisplayTrickController extends BaseController
 {
-    protected $templating;
-    protected $trickRepository;
+    protected Environment $templating;
+    protected TrickRepository $trickRepository;
 
     public function __construct(
         Environment $templating,
@@ -24,7 +24,7 @@ class DisplayTrickController extends BaseController
     }
 
     /**
-     * @Route("/tricks/{slug}", name="app_displayTrick")
+     * @Route("/tricks/{slug}", name="app_display_trick")
      */
     public function displayTrick($slug)
     {

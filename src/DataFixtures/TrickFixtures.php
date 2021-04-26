@@ -23,7 +23,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
         $categories = $manager->getRepository(Category::class)->findAll();
 
-        for ($i = 1; $i < 5; $i++) {
+        for ($i = 1; $i < 30; $i++) {
             //$trickName = $faker->sentence(1) . ' : ' . $i;
             $trickName = 'Trick ' . $i;
             $trick = new Trick();

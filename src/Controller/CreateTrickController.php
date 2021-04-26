@@ -40,7 +40,7 @@ class CreateTrickController extends BaseController
     }
 
     /**
-     * @Route("/createTrick", name="app_createTrick")
+     * @Route("/createTrick", name="app_create_trick")
      */
     public function createTrick(Request $request, FileUploader $fileUploader, string $targetDirectory)
     {

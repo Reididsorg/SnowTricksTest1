@@ -6,15 +6,21 @@
     </div>
     <div class="d-block d-lg-none">
         <nav class="navbar fixed-bottom navbar-light bg-light">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{{ path('app_homepage') }}">
                 <i class="fas fa-home"></i>
             </a>
-            <a class="navbar-brand" href="{{ path('app_createTrick') }}">
+            <a class="navbar-brand" href="{{ path('app_create_trick') }}">
                 <i class="fas fa-bookmark"></i>
             </a>
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-sign-in-alt"></i>
-            </a>
+            {% if app.user %}
+                <a class="navbar-brand" href="{{ path('app_logout') }}">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            {% else %}
+                <a class="navbar-brand" href="{{ path('app_login') }}">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+            {% endif %}
         </nav>
     </div>
 </footer>
