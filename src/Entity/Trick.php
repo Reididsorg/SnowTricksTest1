@@ -29,6 +29,7 @@ class Trick extends AbstractEntity
      * @ORM\Column(type="string", length=100, unique=true)
      *
      * @Assert\NotBlank(message="Champ 'Nom' obligatoire")
+     * @Assert\Length(min=4, minMessage="Le nom doit faire au moins 4 caractères")
      * @Assert\Length(max=100, maxMessage="Le nom ne doit pas faire plus de 100 caractères")
      *
      */
@@ -50,22 +51,17 @@ class Trick extends AbstractEntity
      * @var string
      *
      * @ORM\Column(type="string",  length=255, unique=true)
+     *
      * @Gedmo\Slug(fields={"name"})
      */
     protected string $slug;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"persist", "remove"})
-     *
-     * @Assert\Valid()
-     *
-     */
-    protected Image $mainImage;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", orphanRemoval=true)
-     */
-    protected $comments;
+//    /**
+//     *
+//     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", orphanRemoval=true)
+//     * @ORM\OrderBy({"createdAt" = "DESC"})
+//     */
+//    protected $comments;
 
     /**
      * @var Image[]|Collection
@@ -89,13 +85,14 @@ class Trick extends AbstractEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="tricks")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      *
      * @Assert\NotNull(message="Champ 'Catégorie' obligatoire")
      *
      */
     protected $category;
 
+    // Constructor
     public function __construct()
     {
         parent::__construct();
@@ -103,73 +100,57 @@ class Trick extends AbstractEntity
         $this->videos = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
+    // $name
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
+        if ($name === null) {
+            $name = '';
+        }
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
+    // $description
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
+        if ($description === null) {
+            $name = '';
+        }
         $this->description = $description;
     }
 
-    /**
-     * @return string
-     */
+    // $slug
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
-    /**
-     * @return Comment
-     */
-    public function getComments(): Comment
-    {
-        return $this->comments;
-    }
+//    // $comments
+//    public function getComments(): Comment
+//    {
+//        return $this->comments;
+//    }
+//
+//    public function setComments($comments): void
+//    {
+//        $this->comments = $comments;
+//    }
 
-    /**
-     * @param mixed $comments
-     */
-    public function setComments($comments): void
-    {
-        $this->comments = $comments;
-    }
-
-    /**
-     * @return Collection|Image[]
-     */
+    // $images
     public function getImages(): ?Collection
     {
         return $this->images;
@@ -193,13 +174,10 @@ class Trick extends AbstractEntity
                 $image->setTrick(null);
             }
         }
-
         return $this;
     }
 
-    /**
-     * @return Collection|Video[]
-     */
+    // $videos
     public function getVideos(): ?Collection
     {
         return $this->videos;
@@ -211,7 +189,6 @@ class Trick extends AbstractEntity
             $this->videos[] = $video;
             $video->setTrick($this);
         }
-
         return $this;
     }
 
@@ -228,45 +205,15 @@ class Trick extends AbstractEntity
         return $this;
     }
 
-
-
-    public function getMainImage(): ?Image
-    {
-        return $this->mainImage;
-    }
-
-
-    public function setMainImage($mainImage): void
-    {
-        $this->mainImage = $mainImage;
-    }
-
-
-    /**
-     * @return mixed
-     */
+    // $category
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * @param mixed $category
-     */
     public function setCategory($category): void
     {
         $this->category = $category;
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context, $payload)
-    {
-        /*if(!isset($mainImage)) {
-            $context->buildViolation('Image principale obligatoire !!!!!')
-                ->atPath('images')
-                ->addViolation();
-        }*/
-    }
 }

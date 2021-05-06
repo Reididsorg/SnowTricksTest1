@@ -25,26 +25,30 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $mainImage = new Image();
             $mainImage->setName("Backflip");
             $mainImage->setAlt("Image principale");
-            $mainImage->setPath("/img/tricks/main/trick-main.png");
+            $mainImage->setFilename("trick-main.png");
+            $mainImage->setPath("/img/tricks/main/");
             $mainImage->setTrick($trick);
             $mainImage->setMain(true);
 
             $image1 = new Image();
             $image1->setName("Image 1");
             $image1->setAlt("Image 1");
-            $image1->setPath("/img/tricks/thumbnails/trick_thumbnail.jpg");
+            $image1->setFilename("trick_thumbnail.jpg");
+            $image1->setPath("/img/tricks/thumbnails/");
             $image1->setTrick($trick);
 
             $image2 = new Image();
             $image2->setName("Image 2");
             $image2->setAlt("Image 2");
-            $image2->setPath("/img/tricks/thumbnails/trick_thumbnail.jpg");
+            $image2->setFilename("trick_thumbnail.jpg");
+            $image2->setPath("/img/tricks/thumbnails/");
             $image2->setTrick($trick);
 
             $image3 = new Image();
             $image3->setName("Image 3");
             $image3->setAlt("Image 3");
-            $image3->setPath("/img/tricks/thumbnails/trick_thumbnail.jpg");
+            $image3->setFilename("trick_thumbnail.jpg");
+            $image3->setPath("/img/tricks/thumbnails/");
             $image3->setTrick($trick);
 
             $manager->persist($mainImage);

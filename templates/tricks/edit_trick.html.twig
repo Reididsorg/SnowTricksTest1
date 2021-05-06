@@ -2,7 +2,7 @@
 
     {% block stylesheets %}
         {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('css/editTrick.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/formTrick.css') }}">
     {% endblock %}
 
     {% block title %}SnowTricks - Modification du trick{% endblock %}
@@ -15,21 +15,82 @@
 
                 <h1 class="text-center">Modification du trick</h1>
 
+                {# {{ dump(form.vars.data) }} #}
+
                 <!-- Form -->
                 {{ form_start(form) }}
 
-                    {{ form_widget(form) }}
+                {# {{ form_widget(form) }} #}
+                {{ form_errors(form) }}
 
-                    {{ form_errors(form) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.description) }}
+                {{ form_row(form.category) }}
 
-
-
-
-
-
-                    <button type="submit" class="btn btn-success" formnovalidate>
-                        <i class="fas fa-download"></i> Enregistrer les modifications
+                <fieldset class="form-group">
+                    <label>Image(s)</label>
+                    <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                        {% for image in form.images %}
+                            {% if(loop.index > 1) %}
+                                {# <hr class="separation"> #}
+                            {% endif %}
+                            <li class="subForm col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        {{ form_row(image.name) }}
+                                        {{ form_row(image.alt) }}
+                                        {{ form_row(image.fileName) }}
+                                    </div>
+                                    <div class="col-sm-3 my-auto text-center">
+                                        {% if(image.vars.data.path is not null and image.vars.data.fileName is not null) %}
+                                            <a href="{{ asset(image.vars.data.path ~ image.vars.data.fileName) }}" target="_blank">
+                                                <img src="{{ asset(image.vars.data.path ~ image.vars.data.fileName) }}" height="100">
+                                            </a>
+                                        {% endif %}
+                                        {% if image.vars.data.main == true %}
+                                            <div class="text-center">* Image principale</div>
+                                        {% endif %}
+                                        <button type="button" class="remove-element btn btn-danger" data-collection-holder-class="videos">
+                                            <i class="fas fa-trash"></i> Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="add_item_link btn btn-dark" data-collection-holder-class="images">
+                        <i class="fas fa-plus"></i> Ajouter une image
                     </button>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label>Video(s)</label>
+                    <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+                        {% for video in form.videos %}
+                            <li class="subForm col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        {{ form_row(video.name) }}
+                                        {{ form_row(video.url) }}
+                                    </div>
+                                    <div class="col-sm-3 my-auto text-center">
+                                        <button type="button" class="remove-element btn btn-danger" data-collection-holder-class="videos">
+                                            <i class="fas fa-trash"></i> Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="add_item_link btn btn-dark" data-collection-holder-class="videos">
+                        <i class="fas fa-plus"></i> Ajouter une vidéo
+                    </button>
+                </fieldset>
+
+                <button type="submit" class="btn btn-success" formnovalidate>
+                    <i class="fas fa-download"></i> Enregistrer les modifications
+                </button>
+
                 {{ form_end(form) }}
 
             </div>
@@ -40,5 +101,5 @@
 
     {% block javascripts %}
         {{ parent() }}
-        <script src="{{ asset('js/editTrick.js') }}"></script>
+        <script src="{{ asset('js/formTrick.js') }}"></script>
     {% endblock %}

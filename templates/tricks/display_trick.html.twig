@@ -16,7 +16,12 @@
             <div class="content col-lg-10 col-md-10 mx-auto bg-light">
 
                 <div id="mainImage">
-                    <img src="{{ asset(trick.mainImage.path) }}" alt="{{ trick.mainImage.alt }}" style="width: 100%;">
+                    {% for image in trick.images %}
+                        {% if loop.index == 1 %}
+                        {# {{ dump(image) }} #}
+                            <img src="{{ asset(image.path ~ image.filename) }}" alt="{{ image.alt }}" style="width: 100%;">
+                        {% endif %}
+                    {% endfor %}
                     <div class="centered">
                         <h1>{{ trick.name }}</h1>
                     </div>
@@ -31,15 +36,11 @@
 
                 <div class="row" id="trickImages">
                     {% for image in trick.images %}
-
-                        {# {{ dump(image) }} #}
-
-                        {% if image.main == false %}
+                        {% if loop.index > 1 %}
                             <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                <img src="{{ asset(image.path) }}" width="100%" alt="{{ image.alt }}">
+                                <img src="{{ asset(image.path ~ image.fileName) }}" width="100%" alt="{{ image.alt }}">
                             </div>
                         {% endif %}
-
                     {% endfor %}
                 </div>
 

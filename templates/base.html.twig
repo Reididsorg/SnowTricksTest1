@@ -36,10 +36,12 @@
         {{ include('_inc/footer.html.twig') }}
 
         <!-- Debug -->
+        {#
         {% block debug %}
             {% dump(app.session) %}
             {% dump(app.user) %}
         {% endblock %}
+        #}
 
         {% block javascripts %}
             <script

@@ -18,18 +18,14 @@ class Category extends AbstractEntity
      *
      * @ORM\Column(type="string", length=100, unique=true)
      *
-     * @Assert\NotBlank(message="Champ obligatoire !")
-     *
      */
     protected string $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="category", orphanRemoval=true)
-     *
-     * @Assert\NotBlank(message="Champ obligatoire !")
-     *
-     */
-    protected Collection $tricks;
+//    /**
+//     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="category", orphanRemoval=true)
+//     *
+//     */
+//    protected Collection $trick;
 
     /**
      * @return string
@@ -47,19 +43,19 @@ class Category extends AbstractEntity
         $this->name = $name;
     }
 
-    /*
-     * @return Trick
-     *//*
-    public function getTricks()
-    {
-        return $this->tricks;
-    }*/
-
-    /*
-     * @param Trick $tricks
-     *//*
-    public function setTricks(Trick $tricks): void
-    {
-        $this->tricks = $tricks;
-    }*/
+//    /*
+//     * @return Trick
+//     */
+//    public function getTrick()
+//    {
+//        return $this->trick;
+//    }
+//
+//    /*
+//     * @param Trick $trick
+//     */
+//    public function setTrick(Trick $trick): void
+//    {
+//        $this->tricks = $trick;
+//    }
 }

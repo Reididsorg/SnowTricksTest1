@@ -1,14 +1,10 @@
-// setup an "add a tag" link
-var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
-var $newLinkLi = $('<li></li>').append($addTagLink);
-
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
     var $imagesCollectionHolder = $('ul.images');
     var $videosCollectionHolder = $('ul.videos');
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
-    $imagesCollectionHolder.data('index', $imagesCollectionHolder.find('input').length);
+    $imagesCollectionHolder.data('index', $imagesCollectionHolder.find('li').length);
     $videosCollectionHolder.data('index', $videosCollectionHolder.find('input').length);
 
     $('body').on('click', '.add_item_link', function(e) {
@@ -17,15 +13,15 @@ jQuery(document).ready(function() {
         addFormToCollection($collectionHolderClass);
     })
 
-    /*$('body').on('click', '.remove_item_link', function(e) {
-        // Get the element to remove
-        var $elementToRemove = $(e.currentTarget).attr('id').replace('remove_', '');
-
-        // Remove the parent of element to remove
-        $('#' + $elementToRemove).parent().remove();
-        // Remove the Delete button
-        $(e.currentTarget).remove();
-    })*/
+    // Handle the removal
+    $('.remove-element').click(function(e) {
+        e.preventDefault();
+        // Delete the whole li.subForm container
+        $(this).parent().parent().parent().remove();
+        // Delete also last hr
+        $('.separation').last().remove();
+        return false;
+    });
 
     // To avoid invisible text in file input (Due to "bug with Bootstrap 4")
     $('.custom-file-input').on('change', function(event) {
@@ -37,7 +33,6 @@ jQuery(document).ready(function() {
 });
 
 function addFormToCollection($collectionHolderClass) {
-
     // Get the ul that holds the collection of tags
     var $collectionHolder = $('.' + $collectionHolderClass);
 
@@ -57,26 +52,27 @@ function addFormToCollection($collectionHolderClass) {
     // instead be a number based on how many items we have
     newForm = newForm.replace(/__name__/g, index);
 
-    // increase the index with one for the next item
+    // Increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
 
-    // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<li></li>').append(newForm);
-
-    // also add a remove button, just for this example
-    $newFormLi.append('<a href="#" class="remove-tag">x</a>');
-
-    $newLinkLi.before($newFormLi);
+    // Display the form a li containing a row div, 2 cols and a remove button
+    var $form = $('<div class="col-sm-9"></div>').append(newForm);
+    var $button = $('<div class="col-sm-3 my-auto text-center"></div>')
+        .append('<button type="button" class="remove-element btn btn-danger" data-collection-holder-class="'+$collectionHolderClass+'">' +
+            '<i class="fas fa-trash"></i> Supprimer</button>');
+    var $divRow = $('<div class="row"></div>').append($form).append($button);
+    var $subFormLi = $('<li class="subForm"></li>').append($divRow);
 
     // Add the new form at the end of the list
-    $collectionHolder.append($newFormLi)
+    $collectionHolder.append($subFormLi)
 
-    // handle the removal, just for this example
-    $('.remove-tag').click(function(e) {
+    // Handle the removal
+    $('.remove-element').click(function(e) {
         e.preventDefault();
-
-        $(this).parent().remove();
-
+        // Delete the whole li.subForm container
+        $(this).parent().parent().parent().remove();
+        // Delete also last hr
+        $('.separation').last().remove();
         return false;
     });
 

@@ -4,6 +4,8 @@
 namespace App\DataFixtures;
 
 
+use App\Entity\AbstractEntity;
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -23,7 +25,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
         $categories = $manager->getRepository(Category::class)->findAll();
 
-        for ($i = 1; $i < 30; $i++) {
+        for ($i = 1; $i < 5; $i++) {
             //$trickName = $faker->sentence(1) . ' : ' . $i;
             $trickName = 'Trick ' . $i;
             $trick = new Trick();

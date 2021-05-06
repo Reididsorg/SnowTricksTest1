@@ -3,11 +3,10 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Image;
 use App\Forms\TrickType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,6 +21,8 @@ class CreateTrickController extends BaseController
 {
     protected Environment $templating;
     protected FormFactoryInterface $formFactory;
+    protected EntityManagerInterface $entityManager;
+    protected UrlGeneratorInterface $urlGenerator;
     protected FlashBagInterface $flashBag;
 
     public function __construct(
@@ -49,47 +50,62 @@ class CreateTrickController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $trickEntity = $form->getData();
+            $formErrors = [];
 
-            /*
-             * Get UploadedFile object thanks to the form (Don't forget to change the ImageType field name and add "'mapped' => false" option.
-             */
-            /** @var UploadedFile $mainImageFile */
-            $mainImageFile = $form['mainImage']['path']->getData();
-            //dd($mainImageFile);
+            // If no image : Error pointed on global form
+            if (empty($form['images']->getData())) {
+                $formErrors[] = 'images';
+            }
+            else {
+                $trickEntity = $form->getData();
+                $imageElements = $trickEntity->getImages();
 
-            /*
-             * Get UploadedFile object thanks to the form or Request object
-             * In case I don't change ImageType field name and add "'mapped' => false" option
-             */
-            //$mainImageFile = $request->files->get('trick')['mainImage']['path'];
+                if ($imageElements) {
+                    $i = 0;
+                    foreach($imageElements  as $imageElement)
+                    {
+                        /** @var UploadedFile $imageFile */
+                        $imageFile = $form['images'][$i]['fileName']->getData();
 
-            if ($mainImageFile) {
-                $mainImageFileName = $fileUploader->upload($mainImageFile);
-                $mainImage = new Image();
-                $mainImage->setName($trickEntity->getMainImage()->getName());
-                $mainImage->setAlt($trickEntity->getMainImage()->getAlt());
-                $mainImage->setPath($mainImageFileName);
-                $trickEntity->setMainImage($mainImage);
-                $mainImage->setTrick($trickEntity);
-                $mainImage->setMain(true);
+                        // If no fileName : Error pointed to fileName field
+                        if (is_null($imageElement->getFileName())) {
+                            $formErrors[] = 'fileName';
+                        }
+
+                        if ($imageFile) {
+                            // Set first image of collection as main image
+                            if($i == 0) {
+                                $imageElement->setMain(true);
+                            }
+                            // Upload file to local file with a new unique name
+                            $imageFileName = $fileUploader->upload($imageFile);
+                            // Set the new filename
+                            $imageElement->setFileName($imageFileName);
+                            // Set the path
+                            $imageElement->setPath($fileUploader->getAppUploadsDirectory());
+                        }
+                        $i++;
+                    }
+                }
             }
 
-            $imageElements = $form['images']->getData();
-            if ($imageElements) {
-                $i = 0;
-                foreach($imageElements  as $imageElement)
-                {
-
-                    /** @var UploadedFile $imageFile */
-                    $imageFile = $form['images'][$i]['path']->getData();
-
-                    if ($imageFile) {
-                        $imageFileName = $fileUploader->upload($imageFile);
-                        $imageElement->setPath($imageFileName);
+            if ($formErrors) {
+                foreach ($formErrors as $key => $fieldError) {
+                    if ($fieldError === 'fileName') {
+                        $form['images'][$key][$fieldError]->addError(new FormError('Champ Image obligatoire !'));
                     }
-                    $i++;
+                    if ($fieldError === 'images') {
+                        $form['images']->addError(new FormError('Veuillez ajouter au moins une image !'));
+                    }
                 }
+                return new Response(
+                    $this->templating->render(
+                        'tricks/create_trick.html.twig',
+                        [
+                            'form' => $form->createView(),
+                        ]
+                    )
+                );
             }
 
             $this->flashBag->add('success', 'super ! Le trick <strong>' . $trickEntity->getName() . '</strong> a bien été enregistré !');
@@ -97,10 +113,9 @@ class CreateTrickController extends BaseController
             $this->entityManager->persist($trickEntity);
             $this->entityManager->flush();
 
-
             return new RedirectResponse(
                 $this->urlGenerator->generate(
-                    'app_displayTrick',
+                    'app_display_trick',
                     [
                         'slug' => $trickEntity->getSlug(),
                     ]

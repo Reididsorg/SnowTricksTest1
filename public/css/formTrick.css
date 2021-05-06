@@ -1,18 +1,5 @@
-form li * {
-    display:inline-block;
-    margin:0 10px;
-}
-
 form .form-group .custom-file {
     margin-left: 0;
-}
-
-ul.images, ul.videos {
-    margin-top: -16px;
-}
-
-button.remove_item_link {
-    margin-left: 20px;
 }
 
 button[type=submit] {
@@ -23,14 +10,19 @@ button[type=submit] {
     width: 100%;
 }
 
-ul.images .form-group, ul.videos .form-group {
-    padding-right: 20px;
-}
-
 form ul li a.remove-tag {
-    display: block;
     clear: both;
     font-size: 1.5rem;
+}
+
+li.subForm {
+    background: #EDD0DC;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+ul.images li button.btn-danger {
+    margin-top: 10px;
 }
 
 footer {

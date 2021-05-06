@@ -18,13 +18,13 @@ class Comment extends AbstractEntity
      */
     protected string $content;
 
-    /**
-     * @var Trick
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="comments")
-     * @ORM\JoinColumn(name="trick_id", referencedColumnName="id")
-     */
-    protected Trick $trick;
+//    /**
+//     * @var Trick
+//     *
+//     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="comments")
+//     * @ORM\JoinColumn(name="trick_id", referencedColumnName="id")
+//     */
+//    protected Trick $trick;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
@@ -53,21 +53,21 @@ class Comment extends AbstractEntity
         $this->content = $content;
     }
 
-    /**
-     * @return Trick
-     */
-    public function getTrick(): Trick
-    {
-        return $this->trick;
-    }
-
-    /**
-     * @param Trick $trick
-     */
-    public function setTrick(Trick $trick): void
-    {
-        $this->trick = $trick;
-    }
+//    /**
+//     * @return Trick
+//     */
+//    public function getTrick(): Trick
+//    {
+//        return $this->trick;
+//    }
+//
+//    /**
+//     * @param Trick $trick
+//     */
+//    public function setTrick(Trick $trick): void
+//    {
+//        $this->trick = $trick;
+//    }
 
     /**
      * @return User

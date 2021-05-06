@@ -12,9 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+
 class ImageType extends AbstractType
 {
-    private $imageRepository;
+    protected ImageRepository $imageRepository;
 
     public function __construct(ImageRepository $imageRepository)
     {
@@ -36,22 +37,21 @@ class ImageType extends AbstractType
                     'label' => 'Description'
                 ]
             )
-            //->add('path',
-            ->add('path',
+            ->add('fileName',
                 FileType::class,
                 [
-                    'label' => 'Sélectionnez un fichier'/*,
-                    'mapped' => false*/
+                    'label' => 'Sélectionnez un fichier',
+                    'data_class' => null
                 ]
             )
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Image::class,
-            'label' => false,
         ]);
     }
 }

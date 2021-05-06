@@ -3,9 +3,12 @@
 
 namespace App\Entity;
 
+use App\Service\FileUploader;
 use App\Validator as AcmeAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -43,11 +46,10 @@ class Image extends AbstractEntity
     protected string $alt;
 
     /**
-     * @var string
      *
-     * @ORM\Column(type="string",  length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
-     * @Assert\NotNull(message="Champ 'Sélectionnez un fichier' obligatoire !")
+     *
      * @Assert\Image(
      *     mimeTypes={"image/jpg", "image/jpeg", "image/png", "image/gif"},
      *     mimeTypesMessage="Le fichier doit être de type jpg, jpeg, png ou gif",
@@ -72,7 +74,15 @@ class Image extends AbstractEntity
      * )
      *
      */
-    protected string $path;
+    protected ?string $fileName = null;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     *
+     */
+    protected ?string $path = null;
 
     /**
      * @var Trick
@@ -89,108 +99,81 @@ class Image extends AbstractEntity
      */
     protected bool $main = false;
 
-    /**
-     * @return string
-     */
+
+    // $name
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
+        if ($name === null) {
+            $name = '';
+        }
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
+    // $alt
     public function getAlt(): string
     {
         return $this->alt;
     }
 
-    /**
-     * @param string $alt
-     */
-    public function setAlt(string $alt): void
+    public function setAlt(?string $alt): void
     {
+        if ($alt === null) {
+            $alt = '';
+        }
         $this->alt = $alt;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath(): string
+    // fileName
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    public function setFileName(?string $fileName): void
+    {
+        if ($fileName === null) {
+            $fileName = '';
+        }
+        $this->fileName = $fileName;
+    }
+
+
+    // path
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath(string $path): void
+    public function setPath(?string $path): void
     {
         $this->path = $path;
     }
 
-    /**
-     * @return Trick
-     */
+    // $trick
     public function getTrick(): Trick
     {
         return $this->trick;
     }
 
-    /**
-     * @param Trick $trick
-     */
     public function setTrick(Trick $trick): void
     {
         $this->trick = $trick;
     }
 
-    /**
-     * @return bool
-     */
+    // $main
     public function isMain(): bool
     {
         return $this->main;
     }
 
-    /**
-     * @param bool $main
-     */
     public function setMain(bool $main): void
     {
         $this->main = $main;
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context, $payload)
-    {
-        /*if(!isset($name) || !isset($alt) || !isset($path)){
-            $context->buildViolation('Fichier non sélectionné. Merci de sélectionner un fichier')
-                ->atPath('path')
-                ->addViolation();
-        }*/
-        //dump($this);
-        //dump($this->getName());
-        //dump($this->getAlt());
-        //dump($this->getPath());
-        //exit;
-
-
-
-        /*if($this->getMainImage() === null) {
-            $context->buildViolation('Image principale obligatoire !!!!!')
-                ->atPath('mainImage')
-                ->addViolation();
-        }*/
-    }
 }

@@ -9,6 +9,7 @@ use App\Entity\Video;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class VideoFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -18,6 +19,8 @@ class VideoFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create('fr-FR');
+
         $tricks = $manager->getRepository(Trick::class)->findAll();
 
         foreach ($tricks as $trick)

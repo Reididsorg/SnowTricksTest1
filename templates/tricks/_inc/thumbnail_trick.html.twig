@@ -1,7 +1,16 @@
+{# {{ dump(trick.images) }} #}
+
+
+
+
 <div class="col">
     <div class="card">
         <a href="{{ path('app_display_trick', {'slug': trick.slug}) }}">
-            <img src="{{ trick.mainImage.path }}" class="card-img-top" alt="">
+            {% for image in trick.images %}
+                {% if loop.index == 1 %}
+                    <img src="{{ asset(image.path ~ image.fileName) }}" class="card-img-top" alt="{{ image.alt }}">
+                {% endif %}
+            {% endfor %}
             <div class="card-body">
                 <h5 class="card-title float-left">
                     {{ trick.name }}
@@ -29,3 +38,8 @@
         </a>
     </div>
 </div>
+
+
+
+
+

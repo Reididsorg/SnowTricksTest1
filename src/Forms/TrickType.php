@@ -3,7 +3,9 @@
 
 namespace App\Forms;
 
+use App\Entity\AbstractEntity;
 use App\Entity\Category;
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Repository\CategoryRepositiry;
 use Doctrine\ORM\EntityRepository;
@@ -14,11 +16,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
 
 
 class TrickType extends AbstractType
 {
-    private $categoryRepository;
+    protected $categoryRepository;
 
     public function __construct(CategoryRepositiry $categoryRepositiry)
     {
@@ -41,12 +47,6 @@ class TrickType extends AbstractType
                     'label' => 'Description'
                 ]
             )
-            /*->add('slug',
-                TextType::class,
-                [
-                    'label' => 'Slug'
-                ]
-            )*/
             ->add('category',
                 EntityType::class,
                 [
@@ -60,28 +60,21 @@ class TrickType extends AbstractType
                     'placeholder' => 'Choisir une catégorie'
                 ]
             )
-//            ->add(
-//                'mainImage',
-//                ImageType::class,
-//                [
-//                    'label' => 'Image principale'
-//                ]
-//            )
-//            ->add(
-//                'images',
-//                CollectionType::class, [
-//                    'entry_type' => ImageType::class,
-//                    'label' => false,
-//                    'allow_add' => true,
-//                    'allow_delete' => true,
-//                    'delete_empty' =>true
-//                ]
-//            )
+            ->add(
+                'images',
+                CollectionType::class, [
+                    'entry_type' => ImageType::class,
+                    'label' => false,
+                    'allow_add' => true, // Allow to add unknowned number of new nested Image forms in Trick form
+                    'allow_delete' => true, // Allow to delete unknowned number of new nested Image forms in Trick form
+                    'delete_empty' =>true, // Allow to remove entirely empty nested Image form from Trick form
+                ]
+            )
             ->add('videos',
                 CollectionType::class, [
                     'entry_type' => VideoType::class,
                     'label' => false,
-                    'allow_add' => true,
+                    'allow_add' => true, // makes also a prototype variable available, to manage with js
                     'allow_delete' => true,
                     'delete_empty' =>true
                 ]
@@ -92,9 +85,6 @@ class TrickType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'error_mapping' => [
-                '.' => 'mainImage',
-            ],
             'data_class' => Trick::class,
         ]);
     }

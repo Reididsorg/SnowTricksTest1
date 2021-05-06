@@ -68,6 +68,31 @@ li {
     list-style-type: none;
 }
 
+/*
+ * Forms
+ */
+label {
+    font-weight: bold;
+    color: #AF2A63;
+}
+
+fieldset ul li div.form-group label {
+    font-weight: normal;
+}
+
+ul.images, ul.videos {
+    padding-inline-start: 0;
+}
+
+li.subForm {
+padding-left: 0;
+}
+
+
+
+/*
+ * Footer
+ */
 #footer-text {
     font-size: 1.2rem;
     text-align: center;
