@@ -28,6 +28,7 @@ class SecurityController extends BaseController
     protected Environment $templating;
     protected UrlGeneratorInterface $urlGenerator;
     protected FlashBagInterface $flashBag;
+    protected EncoderFactoryInterface $encoderFactory;
 
     public function __construct(
         FormFactoryInterface $formFactory,

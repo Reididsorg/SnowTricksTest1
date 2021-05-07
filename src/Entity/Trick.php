@@ -56,12 +56,12 @@ class Trick extends AbstractEntity
      */
     protected string $slug;
 
-//    /**
-//     *
-//     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", orphanRemoval=true)
-//     * @ORM\OrderBy({"createdAt" = "DESC"})
-//     */
-//    protected $comments;
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", orphanRemoval=true)
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
+    protected Collection $comments;
 
     /**
      * @var Image[]|Collection
@@ -123,7 +123,7 @@ class Trick extends AbstractEntity
     public function setDescription(?string $description): void
     {
         if ($description === null) {
-            $name = '';
+            $description = '';
         }
         $this->description = $description;
     }
@@ -139,16 +139,32 @@ class Trick extends AbstractEntity
         $this->slug = $slug;
     }
 
-//    // $comments
-//    public function getComments(): Comment
-//    {
-//        return $this->comments;
-//    }
-//
-//    public function setComments($comments): void
-//    {
-//        $this->comments = $comments;
-//    }
+    // $comments
+    public function getComments(): ?Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
+        }
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
+        return $this;
+    }
 
     // $images
     public function getImages(): ?Collection
