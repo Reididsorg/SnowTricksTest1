@@ -32,8 +32,6 @@ class HomepageController extends AbstractController
         $allTricks = $this->trickRepository->getAllTricks();
         $images = $this->imageRepository->findAll();
 
-        //dd($tricks, $images);
-
         return $this->render('tricks/homepage.html.twig', [
             'tricks' => $tricks,
             'images' => $images,
@@ -45,12 +43,8 @@ class HomepageController extends AbstractController
      */
     public function seeMoreTricks($offset)
     {
-        dump($offset);
-
         //$moreTricks = $this->trickRepository->findBy([], ['createdAt' => 'DESC'], 15, $offset);
         $moreTricks = $this->trickRepository->getTricks($offset, 15);
-
-        dump($moreTricks);
 
         return $this->render('tricks/see_more_tricks.html.twig', [
             //'moreTricks' => $moreTricks,

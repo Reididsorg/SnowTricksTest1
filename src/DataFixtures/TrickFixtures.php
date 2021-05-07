@@ -4,8 +4,6 @@
 namespace App\DataFixtures;
 
 
-use App\Entity\AbstractEntity;
-use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
