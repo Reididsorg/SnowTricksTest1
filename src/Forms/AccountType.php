@@ -36,7 +36,6 @@ class AccountType extends AbstractType
                 [
                     'label' => 'Email'
                 ]
-
             )
         ;
     }

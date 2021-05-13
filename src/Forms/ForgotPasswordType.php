@@ -7,7 +7,7 @@ namespace App\Forms;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,10 +23,10 @@ class ForgotPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username',
-                TextType::class,
+            ->add('email',
+                EmailType::class,
                 [
-                    'label' => 'Nom d\'utilisateur'
+                    'label' => 'Email'
                 ]
             )
         ;
@@ -36,6 +36,7 @@ class ForgotPasswordType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            //'validation_groups' => false, // Disable Doctrine validation of all fields of this form
         ]);
     }
 }

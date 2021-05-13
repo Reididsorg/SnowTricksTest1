@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,19 +24,12 @@ class ResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username',
-                TextType::class,
-                [
-                    'label' => 'Nom d\'utilisateur'
-                ]
-            )
-
-            ->add('password',
-                PasswordType::class,
-                [
-                    'label' => 'Mot de passe'
-                ]
-            )
+            ->add('password', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_options' => array('label' => 'Nouveau mot de passe'),
+                'second_options' => array('label' => 'Confirmer le mot de passe'),
+                'invalid_message' => 'Les 2 mots de passe ne sont pas identiques.',
+            ))
         ;
     }
 
@@ -44,6 +37,7 @@ class ResetPasswordType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            //'validation_groups' => false, // Disable Doctrine validation of all fields of this form
         ]);
     }
 }

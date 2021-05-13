@@ -72,6 +72,20 @@ class User extends AbstractEntity implements UserInterface
      */
     protected $comments;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $passwordRequestedAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $token;
+
     public function __construct()
     {
         $this->roles[] = 'ROLE_USER';
@@ -113,7 +127,7 @@ class User extends AbstractEntity implements UserInterface
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -173,4 +187,35 @@ class User extends AbstractEntity implements UserInterface
         return;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getPasswordRequestedAt(): \DateTime
+    {
+        return $this->passwordRequestedAt;
+    }
+
+    /**
+     * @param \DateTime $passwordRequestedAt
+     */
+    public function setPasswordRequestedAt(?\DateTime $passwordRequestedAt = null): void
+    {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken(?string $token = null): void
+    {
+        $this->token = $token;
+    }
 }
