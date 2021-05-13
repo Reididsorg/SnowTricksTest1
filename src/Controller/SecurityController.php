@@ -7,17 +7,22 @@ use App\Entity\User;
 use App\Forms\AccountType;
 use App\Forms\ForgotPasswordType;
 use App\Forms\ResetPasswordType;
+use App\Forms\UpdatePasswordType;
 use App\Forms\UserRegistrationType;
+use App\Repository\UserRepository;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 
@@ -29,6 +34,7 @@ class SecurityController extends BaseController
     protected UrlGeneratorInterface $urlGenerator;
     protected FlashBagInterface $flashBag;
     protected EncoderFactoryInterface $encoderFactory;
+    protected UserRepository $userRepo;
 
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -37,7 +43,8 @@ class SecurityController extends BaseController
         UrlGeneratorInterface $urlGenerator,
         FlashBagInterface $flashBag,
         EntityManagerInterface $entityManager,
-        EncoderFactoryInterface $encoderFactory
+        EncoderFactoryInterface $encoderFactory,
+        UserRepository $userRepo
     ) {
         $this->formFactory = $formFactory;
         $this->authUtils = $authUtils;
@@ -46,6 +53,7 @@ class SecurityController extends BaseController
         $this->flashBag = $flashBag;
         $this->entityManager = $entityManager;
         $this->encoderFactory = $encoderFactory;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -109,12 +117,54 @@ class SecurityController extends BaseController
     /**
      * @Route("/forgot-password", name="app_forgot_password")
      */
-    public function forgotPassword(Request $request)
+    public function forgotPassword(Request $request, Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
     {
-        $user = $this->getUser();
-
-        $form = $this->formFactory->create(ForgotPasswordType::class, $user)
+        $form = $this->formFactory->create(ForgotPasswordType::class)
             ->handleRequest($request);
+
+        // Validate form by finding given email in the database
+        $formValidation = false;
+        if ($form->isSubmitted()) {
+            $formEmail = $form['email']->getData();
+            if (!is_null($formEmail)) {
+                $formUser = $this->userRepo->findOneBy(['email' => $formEmail]);
+                if (!is_null($formUser)) {
+                    $formValidation = true;
+                }
+            }
+        }
+
+        // Avoid isValid() method because of @UniqueEntity constraint
+        //if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $formValidation) {
+
+            $email = $form->getData()->getEmail();
+
+            $user = $this->userRepo->findOneBy(['email' => $email]);
+
+            // Treatment only if user is found
+            if ($user) {
+                // Creation of the token
+                $token = $tokenGenerator->generateToken();
+                $user->setToken($token);
+                // Token creation date
+                $user->setPasswordRequestedAt(new \Datetime());
+                $this->entityManager->flush();
+
+                // Use of Mailer service to send email
+                $bodyMail = $mailer->createBodyMail('user/mail.html.twig', [
+                    'user' => $user
+                ]);
+                //$mailer->sendMessage('from@email.com', $user->getEmail(), 'renouvellement du mot de passe', $bodyMail);
+                $mailer->sendMessage('arsincitrusdev@gmail.com', $user->getEmail(), 'renouvellement du mot de passe', $bodyMail);
+                $this->flashBag->add('success', 'Yop ! Un courriel vient de t\'être envoyé afin que tu puisses renouveller ton mot de passe. Le lien que tu recevras sera valide 24h.');
+
+                return new RedirectResponse(
+                    $this->urlGenerator->generate('app_login')
+                );
+            }
+
+        }
 
         return new Response(
             $this->templating->render(
@@ -126,25 +176,91 @@ class SecurityController extends BaseController
         );
     }
 
-    /**
-     * @Route("/reset-password", name="app_reset_password")
-     */
-    public function resetPassword(Request $request)
+    // If request password is over 10 min (or value = null), return false
+    private function isRequestInTime(\Datetime $passwordRequestedAt = null)
     {
-        $user = $this->getUser();
+        if ($passwordRequestedAt === null)
+        {
+            return false;
+        }
 
-        $form = $this->formFactory->create(ResetPasswordType::class, $user)
-            ->handleRequest($request);
+        $now = new \DateTime();
+        $interval = $now->getTimestamp() - $passwordRequestedAt->getTimestamp();
 
-        return new Response(
-            $this->templating->render(
-                'user/reset_password.html.twig',
-                [
-                    'form' => $form->createView(),
-                ]
-            )
-        );
+        $daySeconds = 60 * 10;
+        $response = $interval > $daySeconds ? false : $reponse = true;
+        return $response;
     }
+
+    /**
+     * @Route("/{id}/{token}", name="resetting")
+     */
+    public function resetting($id, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $user = $this->userRepo->findOneBy(['id' => $id]);
+
+        // Access forbidden if :
+        // le token associated to memeber is null
+        // le token in database and token il url are different
+        // le token duration is more than 10 minutes
+        if ($user->getToken() === null || $token !== $user->getToken() || !$this->isRequestInTime($user->getPasswordRequestedAt()))
+        {
+            throw new AccessDeniedHttpException();
+        }
+
+        $form = $this->createForm(ResetPasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            //$password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            //$user->setPassword($password);
+
+            $encoder = $this->encoderFactory->getEncoder(User::class);
+            //dd($userEntity);
+            $passwordCrypted = $encoder->encodePassword($user->getPassword(), '');
+            $user->setPassword($passwordCrypted);
+
+
+            // réinitialisation du token à null pour qu'il ne soit plus réutilisable
+            $user->setToken(null);
+            $user->setPasswordRequestedAt(null);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', "Yop ! Ton mot de passe a été renouvelé ! :)");
+
+            return $this->redirectToRoute('app_login');
+
+        }
+
+        return $this->render('user/reset_password.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
+
+//    /**
+//     * @Route("/update-password", name="app_update_password")
+//     */
+//    public function resetPassword(Request $request)
+//    {
+//        $user = $this->getUser();
+//
+//        $form = $this->formFactory->create(UpdatePasswordType::class, $user)
+//            ->handleRequest($request);
+//
+//        return new Response(
+//            $this->templating->render(
+//                'user/update_password.html.twig',
+//                [
+//                    'form' => $form->createView(),
+//                ]
+//            )
+//        );
+//    }
 
     /**
      * @Route("/edit/account", name="app_edit_account")
