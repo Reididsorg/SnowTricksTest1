@@ -45,6 +45,9 @@ class Image extends AbstractEntity
      */
     protected string $alt;
 
+//     *     allowSquare=false,
+//     *     allowSquareMessage="Seules les images en paysage sont autorisées",
+
     /**
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -57,8 +60,6 @@ class Image extends AbstractEntity
      *     minPixelsMessage="Image obligatoire !",
      *     allowPortrait=false,
      *     allowPortraitMessage="Seules les images en paysage sont autorisées",
-     *     allowSquare=false,
-     *     allowSquareMessage="Seules les images en paysage sont autorisées",
      *     minWidth=500,
      *     minWidthMessage="La largeur minimum est de 500px",
      *     maxWidth=2000,
