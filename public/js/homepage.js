@@ -10,7 +10,7 @@ $('#seeMoreTricks').on('click', function(e) {
     const url = e.target.dataset.urlmore;
     /*console.warn(url);*/
     click++;
-    var offset = 15 * click;
+    var offset = 5 * click;
 
     console.warn(offset);
 
