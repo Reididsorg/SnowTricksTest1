@@ -192,6 +192,43 @@ class SecurityController extends BaseController
         return $response;
     }
 
+
+    /**
+     * @Route("/edit/account", name="app_edit_account")
+     */
+    public function editAccount(Request $request)
+    {
+        $user = $this->getUser();
+
+        $form = $this->formFactory->create(AccountType::class, $user)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $userEntity = $form->getData();
+
+            $this->entityManager->persist($userEntity);
+            $this->entityManager->flush();
+
+            $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');
+
+            return new RedirectResponse(
+                $this->urlGenerator->generate('app_homepage')
+            );
+
+        }
+
+        return new Response(
+            $this->templating->render(
+                'user/edit_account.html.twig',
+                [
+                    'form' => $form->createView(),
+                ]
+            )
+        );
+    }
+
+
     /**
      * @Route("/{id}/{token}", name="resetting")
      */
@@ -200,9 +237,9 @@ class SecurityController extends BaseController
         $user = $this->userRepo->findOneBy(['id' => $id]);
 
         // Access forbidden if :
-        // le token associated to memeber is null
-        // le token in database and token il url are different
-        // le token duration is more than 10 minutes
+        // Token associated to member is null
+        // Token in database and token in url are different
+        // Token duration is over 10 minutes
         if ($user->getToken() === null || $token !== $user->getToken() || !$this->isRequestInTime($user->getPasswordRequestedAt()))
         {
             throw new AccessDeniedHttpException();
@@ -239,61 +276,6 @@ class SecurityController extends BaseController
         return $this->render('user/reset_password.html.twig', [
             'form' => $form->createView()
         ]);
-
     }
 
-//    /**
-//     * @Route("/update-password", name="app_update_password")
-//     */
-//    public function resetPassword(Request $request)
-//    {
-//        $user = $this->getUser();
-//
-//        $form = $this->formFactory->create(UpdatePasswordType::class, $user)
-//            ->handleRequest($request);
-//
-//        return new Response(
-//            $this->templating->render(
-//                'user/update_password.html.twig',
-//                [
-//                    'form' => $form->createView(),
-//                ]
-//            )
-//        );
-//    }
-
-    /**
-     * @Route("/edit/account", name="app_edit_account")
-     */
-    public function editAccount(Request $request)
-    {
-        $user = $this->getUser();
-
-        $form = $this->formFactory->create(AccountType::class, $user)
-            ->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $userEntity = $form->getData();
-
-            $this->entityManager->persist($userEntity);
-            $this->entityManager->flush();
-
-            $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');
-
-            return new RedirectResponse(
-                $this->urlGenerator->generate('app_homepage')
-            );
-
-        }
-
-        return new Response(
-            $this->templating->render(
-                'user/edit_account.html.twig',
-                [
-                    'form' => $form->createView(),
-                ]
-            )
-        );
-    }
 }

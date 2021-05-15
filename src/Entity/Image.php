@@ -45,8 +45,8 @@ class Image extends AbstractEntity
      */
     protected string $alt;
 
-//     *     allowSquare=false,
-//     *     allowSquareMessage="Seules les images en paysage sont autorisées",
+//*     allowPortrait=false,
+//*     allowPortraitMessage="Les images en portrait ne sont pas acceptées.",
 
     /**
      *
@@ -58,19 +58,17 @@ class Image extends AbstractEntity
      *     mimeTypesMessage="Le fichier doit être de type jpg, jpeg, png ou gif",
      *     minPixels=1,
      *     minPixelsMessage="Image obligatoire !",
-     *     allowPortrait=false,
-     *     allowPortraitMessage="Seules les images en paysage sont autorisées",
-     *     minWidth=500,
-     *     minWidthMessage="La largeur minimum est de 500px",
-     *     maxWidth=2000,
-     *     maxWidthMessage="La largeur maximum est de 2000px",
-     *     minHeight=300,
-     *     minHeightMessage="La hauteur minimum est de 300px",
-     *     maxHeight=1000,
-     *     maxHeightMessage="La hauteur maximum est de 1000px"
+     *     minWidth=1500,
+     *     minWidthMessage="La largeur minimum est de 1500px",
+     *     maxWidth=6300,
+     *     maxWidthMessage="La largeur maximum est de 6300px",
+     *     minHeight=840,
+     *     minHeightMessage="La hauteur minimum est de 840px",
+     *     maxHeight=3500,
+     *     maxHeightMessage="La hauteur maximum est de 3500px"
      * )
      * @Assert\File(
-     *     maxSize="1M",
+     *     maxSize="6M",
      *     maxSizeMessage="Le fichier est trop grand ({{ size }} {{ suffix }}). La taille maximum est de : {{ limit }} {{ suffix }}."
      * )
      *
