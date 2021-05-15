@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Repository\TrickRepository;
@@ -18,13 +19,15 @@ class RemoveTrickController extends BaseController
     protected $trickRepository;
     protected $entityManager;
     protected $flashBag;
+    protected string $targetDirectory;
 
     public function __construct(
         Environment $templating,
         TrickRepository $trickRepository,
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
-        FlashBagInterface $flashBag
+        FlashBagInterface $flashBag,
+        string $targetDirectory
     )
     {
         $this->templating = $templating;
@@ -32,6 +35,7 @@ class RemoveTrickController extends BaseController
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->flashBag = $flashBag;
+        $this->targetDirectory = $targetDirectory;
     }
 
     /**
@@ -39,9 +43,18 @@ class RemoveTrickController extends BaseController
      */
     public function removeTrick($slug)
     {
-        //$trick = $this->trickRepository->findOneBy(array('id' => $slug));
         $trick = $this->trickRepository->findOneBySlug($slug);
 
+        // Remove files
+        foreach($trick->getImages() as $trickImage)
+        {
+            $filePath = $this->targetDirectory . '/' . $trickImage->getFileName();
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        // Remove trick
         $this->entityManager->remove($trick);
         $this->entityManager->flush();
 
