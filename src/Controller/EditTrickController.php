@@ -203,6 +203,10 @@ class EditTrickController extends BaseController
                                 // Set the trick
                                 $form->getData()->getImages()[$key]->setTrick($trick);
                             }
+                            if (in_array($imageElement->getFileName(), $imagesToUpdate)) {
+                                // Set the update date
+                                $form->getData()->getImages()[$key]->setUpdatedAt(new \DateTime());
+                            }
                         }
                         $i++;
                     }
@@ -247,7 +251,9 @@ class EditTrickController extends BaseController
                             // Set the url
                             $form->getData()->getVideos()[$key]->setUrl($videoElement->getUrl());
                             // Set the trick
-                           $form->getData()->getVideos()[$key]->setTrick($trick);
+                            $form->getData()->getVideos()[$key]->setTrick($trick);
+                            // Set the update date
+                            $form->getData()->getVideos()[$key]->setUpdatedAt(new \DateTime());
                         }
                     }
                 }
@@ -295,6 +301,8 @@ class EditTrickController extends BaseController
 
             // Updated form is now ready for persist/flush
             $trickEntity = $form->getData();
+
+            $trickEntity->setUpdatedAt(new \DateTime());
 
             $this->flashBag->add('success',
                 'super ! Le trick <strong>' . $trickEntity->getName() . '</strong> a été mis à jour !');
