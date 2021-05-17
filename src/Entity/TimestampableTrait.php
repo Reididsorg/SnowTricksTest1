@@ -19,7 +19,7 @@ trait TimestampableTrait
      *
      * @ORM\Column(type="datetime", nullable=true)
      */
-    protected \DateTime $updatedAt;
+    protected ?\DateTime $updatedAt = null;
 
     /**
      * @return \Datetime
@@ -38,11 +38,10 @@ trait TimestampableTrait
     }
 
     /**
-     * @param \DateTime $updatedAt
+     * @param ?\DateTime $updatedAt
      */
-    public function setUpdatedAt(\DateTime $updatedAt): void
+    public function setUpdatedAt(?\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
-
 }

@@ -207,6 +207,8 @@ class SecurityController extends BaseController
 
             $userEntity = $form->getData();
 
+            $userEntity->setUpdatedAt(new \DateTime());
+
             $this->entityManager->persist($userEntity);
             $this->entityManager->flush();
 
@@ -250,14 +252,10 @@ class SecurityController extends BaseController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            //$password = $passwordEncoder->encodePassword($user, $user->getPassword());
-            //$user->setPassword($password);
-
             $encoder = $this->encoderFactory->getEncoder(User::class);
-            //dd($userEntity);
             $passwordCrypted = $encoder->encodePassword($user->getPassword(), '');
             $user->setPassword($passwordCrypted);
-
+            $user->setUpdatedAt(new \DateTime());
 
             // réinitialisation du token à null pour qu'il ne soit plus réutilisable
             $user->setToken(null);
