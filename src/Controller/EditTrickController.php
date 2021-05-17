@@ -70,6 +70,7 @@ class EditTrickController extends BaseController
             $existImages[$i]['main'] = $trickImage->isMain();
             $i++;
         }
+
         $existIds = array_map(function ($item) {
             return $item['id'];
         }, $existImages);
@@ -167,6 +168,9 @@ class EditTrickController extends BaseController
 
                 // Treatment of images elements
                 $imageElements = $form->getData()->getImages();
+
+                //dump($imageElements);
+
                 if ($imageElements) {
                     $i = 0;
                     foreach($imageElements  as $key => $imageElement)
@@ -175,37 +179,39 @@ class EditTrickController extends BaseController
                         if (in_array($imageElement->getFileName(), $imagesToDelete)) {
                             $form->getData()->removeImage($imageElement);
                         }
-                        // Ignore
-                        elseif (in_array($imageElement->getFileName(), $imagesToIgnore)) {
-                            // No treatment
-                        }
-                        // Add or update
+
+                        // Ignore, Add or update
                         else {
-                            /** @var UploadedFile $imageFile */
-                            $imageFile = $form['images'][$key]['fileName']->getData();
 
-                            // If no fileName : Error pointed to fileName field
-                            if (is_null($imageElement->getFileName())) {
-                                $formErrors[$key] = 'fileName';
+                            // Set first image of collection as main image
+                            if($i == 0) {
+                                $form->getData()->getImages()[$key]->setMain(true);
                             }
 
-                            if ($imageFile) {
-                                // Set first image of collection as main image
-                                if($i == 0) {
-                                    $form->getData()->getImages()[$key]->setMain(true);
+                            // If not Ignore
+                            if (!in_array($imageElement->getFileName(), $imagesToIgnore)) {
+                                /** @var UploadedFile $imageFile */
+                                $imageFile = $form['images'][$key]['fileName']->getData();
+
+                                // If no fileName : Error pointed to fileName field
+                                if (is_null($imageElement->getFileName())) {
+                                    $formErrors[$key] = 'fileName';
                                 }
-                                // Upload file to local file with a new unique name
-                                $imageFileName = $fileUploader->upload($imageFile);
-                                // Set the new filename
-                                $form->getData()->getImages()[$key]->setFileName($imageFileName);
-                                // Set the path
-                                $form->getData()->getImages()[$key]->setPath($fileUploader->getAppUploadsDirectory());
-                                // Set the trick
-                                $form->getData()->getImages()[$key]->setTrick($trick);
-                            }
-                            if (in_array($imageElement->getFileName(), $imagesToUpdate)) {
-                                // Set the update date
-                                $form->getData()->getImages()[$key]->setUpdatedAt(new \DateTime());
+
+                                if ($imageFile) {
+                                    // Upload file to local file with a new unique name
+                                    $imageFileName = $fileUploader->upload($imageFile);
+                                    // Set the new filename
+                                    $form->getData()->getImages()[$key]->setFileName($imageFileName);
+                                    // Set the path
+                                    $form->getData()->getImages()[$key]->setPath($fileUploader->getAppUploadsDirectory());
+                                    // Set the trick
+                                    $form->getData()->getImages()[$key]->setTrick($trick);
+                                }
+                                if (in_array($imageElement->getFileName(), $imagesToUpdate)) {
+                                    // Set the update date
+                                    $form->getData()->getImages()[$key]->setUpdatedAt(new \DateTime());
+                                }
                             }
                         }
                         $i++;
@@ -303,6 +309,10 @@ class EditTrickController extends BaseController
             $trickEntity = $form->getData();
 
             $trickEntity->setUpdatedAt(new \DateTime());
+
+
+            //dump($trickEntity);
+            //exit;
 
             $this->flashBag->add('success',
                 'super ! Le trick <strong>' . $trickEntity->getName() . '</strong> a été mis à jour !');
