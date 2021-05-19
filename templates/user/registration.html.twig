@@ -19,6 +19,16 @@
                     {{ form_row(form.username) }}
                     {{ form_row(form.email) }}
                     {{ form_row(form.password) }}
+
+                    <fieldset class="form-group">
+                        <label>Photo</label>
+                        <ul class="images">
+                            <li class="subForm col-sm-12">
+                                {{ form_row(form.imageFileName) }}
+                            </li>
+                        </ul>
+                    </fieldset>
+
                     <button type="submit" class="btn btn-success" formnovalidate>
                         <i class="fas fa-download"></i> Créer le compte
                     </button>

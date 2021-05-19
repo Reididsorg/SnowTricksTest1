@@ -27,14 +27,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr-FR');
 
-
-
             $user1 = new User();
             $user1->setUserName('bruno');
             $encoder1 = $this->encoderFactory->getEncoder(User::class);
             $passwordCrypted1 = $encoder1->encodePassword('12345', '');
             $user1->setPassword($passwordCrypted1);
             $user1->setEmail('bruno@bruno.fr');
+            $user1->setImageFileName('bruno.png');
+            $user1->setImageAlt('Photo de profil de Bruno');
+            $user1->setImagePath('/img/user/');
             $manager->persist($user1);
 
             $user2 = new User();
@@ -43,6 +44,9 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $passwordCrypted2 = $encoder2->encodePassword('12345', '');
             $user2->setPassword($passwordCrypted2);
             $user2->setEmail('samo@samo.fr');
+            $user2->setImageFileName('samo.png');
+            $user2->setImageAlt('Photo de profil de Samo');
+            $user2->setImagePath('/img/user/');
             $manager->persist($user2);
 
         $manager->flush();

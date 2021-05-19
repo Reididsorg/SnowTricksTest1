@@ -45,9 +45,6 @@ class Image extends AbstractEntity
      */
     protected string $alt;
 
-//*     allowPortrait=false,
-//*     allowPortraitMessage="Les images en portrait ne sont pas acceptées.",
-
     /**
      *
      * @ORM\Column(type="string", length=255, nullable=true)

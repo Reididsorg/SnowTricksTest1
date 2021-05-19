@@ -310,10 +310,6 @@ class EditTrickController extends BaseController
 
             $trickEntity->setUpdatedAt(new \DateTime());
 
-
-            //dump($trickEntity);
-            //exit;
-
             $this->flashBag->add('success',
                 'super ! Le trick <strong>' . $trickEntity->getName() . '</strong> a été mis à jour !');
 
