@@ -17,7 +17,31 @@
 
                 {{ form_start(form) }}
 
-                    {{ form_widget(form) }}
+                    {{ form_errors(form) }}
+
+                    {# {{ form_row(form.username, {'disabled':'disabled'}) }} #}
+                    {{ form_row(form.username) }}
+                    {{ form_row(form.email) }}
+
+{#                    <fieldset class="form-group">#}
+{#                        <label>Photo</label>#}
+{#                        <ul class="images">#}
+{#                            <li class="subForm col-sm-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-sm-9">#}
+{#                                        {{ form_row(form.imageFileName) }}#}
+{#                                    </div>#}
+{#                                    <div class="col-sm-3 my-auto text-center">#}
+{#                                        {% if(form.vars.data.imagePath is not null and form.vars.data.imageFileName is not null) %}#}
+{#                                            <a href="{{ asset(form.vars.data.imagePath ~ form.vars.data.imageFileName) }}" target="_blank">#}
+{#                                                <img src="{{ asset(form.vars.data.imagePath ~ form.vars.data.imageFileName) }}" height="200">#}
+{#                                            </a>#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </li>#}
+{#                        </ul>#}
+{#                    </fieldset>#}
 
                     <button type="submit" class="btn btn-success" formnovalidate>
                         <i class="fas fa-download"></i> Enregistrer les modifications

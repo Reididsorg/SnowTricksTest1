@@ -27,3 +27,8 @@
 i.fas-plus {
     color: #FFFFFF;
 }
+
+.comment-img, .comment-text {
+    background-color : #FFFFFF;
+    padding: 10px;
+}

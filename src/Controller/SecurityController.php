@@ -10,9 +10,12 @@ use App\Forms\ResetPasswordType;
 use App\Forms\UpdatePasswordType;
 use App\Forms\UserRegistrationType;
 use App\Repository\UserRepository;
+use App\Service\FileUploader;
 use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
@@ -59,7 +63,7 @@ class SecurityController extends BaseController
     /**
      * @Route("/registration", name="app_registration")
      */
-    public function registration(Request $request)
+    public function registration(Request $request, FileUploader $fileUploader)
     {
         $form = $this->formFactory->create(UserRegistrationType::class)
             ->handleRequest($request);
@@ -69,9 +73,26 @@ class SecurityController extends BaseController
             $userEntity = $form->getData();
 
             $encoder = $this->encoderFactory->getEncoder(User::class);
-            //dd($userEntity);
             $passwordCrypted = $encoder->encodePassword($userEntity->getPassword(), '');
             $userEntity->setPassword($passwordCrypted);
+
+            // If photo is uploaded in the form
+            if (!is_null($form->getData()->getImageFileName())) {
+                /** @var UploadedFile $imageFile */
+                $imageFile = $form['imageFileName']->getData();
+
+                // Upload file to local file with a new unique name
+                $imageFileName = $fileUploader->upload($imageFile);
+
+                // Set the new filename
+                $form->getData()->setImageFileName($imageFileName);
+
+                // Set the alt
+                $form->getData()->setImageAlt('Photo de profil de ' . $userEntity->getUserName());
+
+                // Set the path
+                $form->getData()->setImagePath($fileUploader->getAppUploadsDirectory());
+            }
 
             $this->entityManager->persist($userEntity);
             $this->entityManager->flush();
@@ -100,6 +121,7 @@ class SecurityController extends BaseController
     {
         $form = $this->formFactory->create(UserRegistrationType::class);
         $form->remove('email'); // Hide useless 'email' field
+        $form->remove('imageFileName'); // Hide useless 'imageFileName' field
         $error = $this->authUtils->getLastAuthenticationError();
 
         return new Response(
@@ -192,31 +214,108 @@ class SecurityController extends BaseController
         return $response;
     }
 
-
     /**
      * @Route("/edit/account", name="app_edit_account")
      */
-    public function editAccount(Request $request)
+    public function editAccount(Request $request, FileUploader $fileUploader)
     {
         $user = $this->getUser();
 
         $form = $this->formFactory->create(AccountType::class, $user)
             ->handleRequest($request);
 
+        if ($form->isSubmitted()) {
+
+            dump($user);
+            dump($user->getUsername());
+            dump($user->getEmail());
+            //dump($user->getToken());
+           // exit;
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $userEntity = $form->getData();
 
-            $userEntity->setUpdatedAt(new \DateTime());
+            exit;
 
-            $this->entityManager->persist($userEntity);
-            $this->entityManager->flush();
 
-            $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');
+//            //dump($form->getData());
+//            //exit;
+//
+//            $existFields = [$user->getImageFileName(), $user->getUsername(), $user->getEmail()];
+//
+//            // If the form Image is null : It's the entity image, so set the entity value into the form
+//            if (is_null($form->getData()->getImageFileName())) {
+//                $form->getData()->setImageFileName($existFields[0]);
+//            }
 
-            return new RedirectResponse(
-                $this->urlGenerator->generate('app_homepage')
-            );
+
+            $formFields = [$form->getData()->getImageFileName(), $form->getData()->getUsername(), $form->getData()->getEmail()];
+
+//            dump($existFields);
+//            dump($formFields);
+//
+//
+//
+//            $diffExistForm = array_diff($existFields, $formFields);
+//            $commonFormExist = array_intersect($existFields, $formFields);
+//
+//            dump($diffExistForm);
+//            dump($commonFormExist);
+//
+//            dump($form->getData()->getImageFileName());
+//
+//            //exit;
+//
+//
+//            // Case nothing has changed
+//            if (empty($diffExistForm)) {
+//
+//                $form->addError(new FormError(
+//                        'Veuillez effectuer au moins une modification pour déclencher l\'enregistrement !')
+//                );
+//
+//                return new Response(
+//                    $this->templating->render(
+//                        'user/edit_account.html.twig',
+//                        [
+//                            'form' => $form->createView(),
+//                        ]
+//                    )
+//                );
+//            }
+//            else {
+//                // Case image has changed : save new image
+//                if (array_key_exists(0, $diffExistForm)) {
+//                    /** @var UploadedFile $imageFile */
+//                    $imageFile = $form->getData()->getImageFileName();
+//
+////                    dump($imageFile);
+////                    exit;
+//
+//                    // Upload file to local file with a new unique name
+//                    $imageFileName = $fileUploader->upload($imageFile);
+//
+//                    // Set the new filename
+//                    $form->getData()->setImageFileName($imageFileName);
+//
+//                    // Set the path
+//                    $form->getData()->setImagePath($fileUploader->getAppUploadsDirectory());
+//                }
+
+                $userEntity = $form->getData();
+
+                $userEntity->setUpdatedAt(new \DateTime());
+
+                $this->entityManager->persist($userEntity);
+                $this->entityManager->flush();
+
+                $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');
+
+                return new RedirectResponse(
+                    $this->urlGenerator->generate('app_homepage')
+                );
+//            }
 
         }
 
@@ -228,6 +327,7 @@ class SecurityController extends BaseController
                 ]
             )
         );
+
     }
 
 
