@@ -37,13 +37,13 @@ class AccountType extends AbstractType
                     'label' => 'Email'
                 ]
             )
-//            ->add('imageFileName',
-//                FileType::class,
-//                [
-//                    'label' => 'Sélectionnez un fichier',
-//                    'data_class' => null
-//                ]
-//            )
+            ->add('imageFileName',
+                FileType::class,
+                [
+                    'label' => 'Sélectionnez un fichier',
+                    'data_class' => null
+                ]
+            )
         ;
     }
 

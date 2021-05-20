@@ -39,6 +39,7 @@ class SecurityController extends BaseController
     protected FlashBagInterface $flashBag;
     protected EncoderFactoryInterface $encoderFactory;
     protected UserRepository $userRepo;
+    protected string $targetDirectory;
 
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -48,7 +49,8 @@ class SecurityController extends BaseController
         FlashBagInterface $flashBag,
         EntityManagerInterface $entityManager,
         EncoderFactoryInterface $encoderFactory,
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        string $targetDirectory
     ) {
         $this->formFactory = $formFactory;
         $this->authUtils = $authUtils;
@@ -58,6 +60,7 @@ class SecurityController extends BaseController
         $this->entityManager = $entityManager;
         $this->encoderFactory = $encoderFactory;
         $this->userRepo = $userRepo;
+        $this->targetDirectory = $targetDirectory;
     }
 
     /**
@@ -218,110 +221,53 @@ class SecurityController extends BaseController
     /**
      * @Route("/edit/account", name="app_edit_account")
      */
-    public function editAccount(Request $request)
+    public function editAccount(Request $request, FileUploader $fileUploader)
     {
         $user = $this->getUser();
 
         if (!$user) {
-
-            //dump($this->getUser());
-            //dump($this->authUtils->getLastUsername());
-            //$lastUsername = $this->authUtils->getLastUsername();
-            //$user = $this->userRepo->findOneBy(['username' => $lastUsername]);
-            //dump($user);
-            exit;
-
             $this->flashBag->add('danger', 'Tu as été déconnecté !');
             return new RedirectResponse(
                 $this->urlGenerator->generate('app_homepage')
             );
         }
+        else {
+            $userOriginalImage = $user->getImageFileName();
 
+            $form = $this->formFactory->create(AccountType::class, $user)
+                ->handleRequest($request);
 
-        $form = $this->formFactory->create(AccountType::class, $user)
-            ->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
 
-        if ($form->isSubmitted()) {
+                $formImage = $form['imageFileName']->getData();
 
-            dump($user);
-            dump($user->getUsername());
-            dump($user->getEmail());
-            dump($form);
-            //exit;
-        }
+                if ($formImage) {
+                    /** @var UploadedFile $imageFile */
+                    $imageFile = $formImage;
 
-        if ($form->isSubmitted() && $form->isValid()) {
+                    // Upload file to local file with a new unique name
+                    $imageFileName = $fileUploader->upload($imageFile);
 
+                    // Set the new filename
+                    $form->getData()->setImageFileName($imageFileName);
 
-            //exit;
+                    // Set the alt
+                    $form->getData()->setImageAlt('Photo de profil de ' . $user->getUserName());
 
+                    // Set the path
+                    $form->getData()->setImagePath($fileUploader->getAppUploadsDirectory());
 
-//            //dump($form->getData());
-//            //exit;
-//
-//            $existFields = [$user->getImageFileName(), $user->getUsername(), $user->getEmail()];
-//
-//            // If the form Image is null : It's the entity image, so set the entity value into the form
-//            if (is_null($form->getData()->getImageFileName())) {
-//                $form->getData()->setImageFileName($existFields[0]);
-//            }
-
-
-            //$formFields = [$form->getData()->getImageFileName(), $form->getData()->getUsername(), $form->getData()->getEmail()];
-
-//            dump($existFields);
-//            dump($formFields);
-//
-//
-//
-//            $diffExistForm = array_diff($existFields, $formFields);
-//            $commonFormExist = array_intersect($existFields, $formFields);
-//
-//            dump($diffExistForm);
-//            dump($commonFormExist);
-//
-//            dump($form->getData()->getImageFileName());
-//
-//            //exit;
-//
-//
-//            // Case nothing has changed
-//            if (empty($diffExistForm)) {
-//
-//                $form->addError(new FormError(
-//                        'Veuillez effectuer au moins une modification pour déclencher l\'enregistrement !')
-//                );
-//
-//                return new Response(
-//                    $this->templating->render(
-//                        'user/edit_account.html.twig',
-//                        [
-//                            'form' => $form->createView(),
-//                        ]
-//                    )
-//                );
-//            }
-//            else {
-//                // Case image has changed : save new image
-//                if (array_key_exists(0, $diffExistForm)) {
-//                    /** @var UploadedFile $imageFile */
-//                    $imageFile = $form->getData()->getImageFileName();
-//
-////                    dump($imageFile);
-////                    exit;
-//
-//                    // Upload file to local file with a new unique name
-//                    $imageFileName = $fileUploader->upload($imageFile);
-//
-//                    // Set the new filename
-//                    $form->getData()->setImageFileName($imageFileName);
-//
-//                    // Set the path
-//                    $form->getData()->setImagePath($fileUploader->getAppUploadsDirectory());
-//                }
+                }
 
                 $userEntity = $form->getData();
 
+                // Remove old file
+                $filePath = $this->targetDirectory . '/' . $userOriginalImage;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+
+                // Save update time
                 $userEntity->setUpdatedAt(new \DateTime());
 
                 $this->entityManager->persist($userEntity);
@@ -332,8 +278,7 @@ class SecurityController extends BaseController
                 return new RedirectResponse(
                     $this->urlGenerator->generate('app_homepage')
                 );
-//            }
-
+            }
         }
 
         return new Response(
@@ -344,7 +289,6 @@ class SecurityController extends BaseController
                 ]
             )
         );
-
     }
 
 
