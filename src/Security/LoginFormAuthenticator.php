@@ -78,6 +78,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new CustomUserMessageAuthenticationException('Identifiants invalides');
         }
 
+        if (!$user->isActive()) {
+            throw new CustomUserMessageAuthenticationException('Ton compte n\'est pas encore activé. Active-la via le lien qui a été envoyé par courriel !');
+        }
+
         return true;
     }
 

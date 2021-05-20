@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @UniqueEntity(
  *     fields={"email"},
- *     message="Cet email est déjà enregistré !"
+ *     message="Cet email est déjà enregistré !",
+ *     groups={"registration"}
  * )
  *
  */
@@ -29,7 +30,7 @@ class User extends AbstractEntity implements UserInterface
      *
      * @ORM\Column(type="string",  length=100, unique=true)
      *
-     * @Assert\NotBlank(message="Champ obligatoire !")
+     * @Assert\NotBlank(message="Champ obligatoire !", groups={"registration"})
      * @Assert\Length(min=4, minMessage="Le nom d'utilisateur est trop court. Il doit faire au moins 4 caractères")
      * @Assert\Length(max=100, maxMessage="Le nom d'utilisateur est trop long. Il doit pas faire plus de 100 caractères")
      *
@@ -41,7 +42,7 @@ class User extends AbstractEntity implements UserInterface
      *
      * @ORM\Column(type="string",  length=255)
      *
-     * @Assert\NotBlank(message="Champ obligatoire !")
+     * @Assert\NotBlank(message="Champ obligatoire !", groups={"registration"})
      * @Assert\Length(min=4, minMessage="Le mot de passe est trop court. Il doit faire au moins 4 caractères")
      * @Assert\Length(max=100, maxMessage="Le mot de passe est trop long. Il ne doit pas faire plus de 255 caractères")
      *
@@ -107,13 +108,18 @@ class User extends AbstractEntity implements UserInterface
      *     minHeight=200,
      *     minHeightMessage="La hauteur minimum est de 200px",
      *     maxHeight=1000,
-     *     maxHeightMessage="La hauteur maximum est de 1000px"
+     *     maxHeightMessage="La hauteur maximum est de 1000px",
+     *     groups={"registration"}
      * )
      * @Assert\File(
      *     maxSize="6M",
-     *     maxSizeMessage="Le fichier est trop grand ({{ size }} {{ suffix }}). La taille maximum est de : {{ limit }} {{ suffix }}."
+     *     maxSizeMessage="Le fichier est trop grand ({{ size }} {{ suffix }}). La taille maximum est de : {{ limit }} {{ suffix }}.",
+     *     groups={"registration"}
      * )
-     * @Assert\NotBlank(message="Image obligatoire !", groups={"registration"})
+     * @Assert\NotBlank(
+     *     message="Image obligatoire !",
+     *     groups={"registration"}
+     * )
      *
      */
     protected ?string $imageFileName = null;
@@ -133,6 +139,15 @@ class User extends AbstractEntity implements UserInterface
      *
      */
     protected ?string $imagePath = null;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected bool $isActive = false;
+
 
     public function __construct()
     {
@@ -319,5 +334,21 @@ class User extends AbstractEntity implements UserInterface
     public function setImagePath(?string $imagePath): void
     {
         $this->imagePath = $imagePath;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
     }
 }

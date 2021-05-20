@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Activation de compte</title>
+</head>
+<body>
+Hey {{ user.username }} !
+<p>Tu es enregistré sur SNOWTRICKS ! C'est super !</p>
+<p>Il reste une dernière étape : Activer ton compte</p>
+<p>Clique sur le lien ci-dessous. Cela activera ton compte et te permettra de te connecter :)</p>
+{# For the link to work, it needs an absolute link. #}
+<p>
+    <a href="{{absolute_url(path('security_confirmation', {'token': user.token}))}}">Activation de mon compte</a>
+</p>
+</body>
+</html>
