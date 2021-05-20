@@ -108,6 +108,9 @@ class CreateTrickController extends BaseController
                 );
             }
 
+            // Set user to trick
+            $trickEntity->setUser($this->getUser());
+
             $this->flashBag->add('success', 'super ! Le trick <strong>' . $trickEntity->getName() . '</strong> a bien été enregistré !');
 
             $this->entityManager->persist($trickEntity);

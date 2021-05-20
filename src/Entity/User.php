@@ -69,11 +69,6 @@ class User extends AbstractEntity implements UserInterface
     protected string $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
-     */
-    protected $comments;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
@@ -140,7 +135,6 @@ class User extends AbstractEntity implements UserInterface
      */
     protected ?string $imagePath = null;
 
-
     /**
      * @var boolean
      *
@@ -148,6 +142,15 @@ class User extends AbstractEntity implements UserInterface
      */
     protected bool $isActive = false;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="user", orphanRemoval=true)
+     */
+    protected $tricks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
+     */
+    protected $comments;
 
     public function __construct()
     {
@@ -223,22 +226,6 @@ class User extends AbstractEntity implements UserInterface
     public function setRole(string $role): void
     {
         $this->role = $role;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param mixed $comments
-     */
-    public function setComments($comments): void
-    {
-        $this->comments = $comments;
     }
 
     public function getRoles()
@@ -350,5 +337,37 @@ class User extends AbstractEntity implements UserInterface
     public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTricks()
+    {
+        return $this->tricks;
+    }
+
+    /**
+     * @param mixed $tricks
+     */
+    public function setTricks($tricks): void
+    {
+        $this->tricks = $tricks;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments): void
+    {
+        $this->comments = $comments;
     }
 }

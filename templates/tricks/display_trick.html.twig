@@ -59,7 +59,7 @@
 
                 <div class="row">
                     <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
-                        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par XX</p>
+                        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p>
                         <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
                         <p class="col">Catégorie : {{ trick.category.name }}</p>
                     </div>

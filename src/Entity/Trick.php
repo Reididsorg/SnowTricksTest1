@@ -57,6 +57,14 @@ class Trick extends AbstractEntity
     protected string $slug;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tricks")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    protected $user;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", fetch="EXTRA_LAZY", orphanRemoval=true)
      * @ORM\OrderBy({"createdAt" = "DESC"})
@@ -137,6 +145,23 @@ class Trick extends AbstractEntity
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    // $tricks
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 
     // $comments

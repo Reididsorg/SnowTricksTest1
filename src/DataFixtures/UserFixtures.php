@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
-class UserFixtures extends Fixture implements DependentFixtureInterface
+class UserFixtures extends Fixture
 {
     protected EncoderFactoryInterface $encoderFactory;
 
@@ -28,7 +28,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr-FR');
 
             $user1 = new User();
-            $user1->setUserName('bruno');
+            $user1->setUserName('Bruno');
             $encoder1 = $this->encoderFactory->getEncoder(User::class);
             $passwordCrypted1 = $encoder1->encodePassword('12345', '');
             $user1->setPassword($passwordCrypted1);
@@ -40,7 +40,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($user1);
 
             $user2 = new User();
-            $user2->setUserName('samo');
+            $user2->setUserName('Samo');
             $encoder2 = $this->encoderFactory->getEncoder(User::class);
             $passwordCrypted2 = $encoder2->encodePassword('12345', '');
             $user2->setPassword($passwordCrypted2);
@@ -52,13 +52,5 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($user2);
 
         $manager->flush();
-    }
-
-    public function getDependencies()
-    {
-        // TODO: Implement getDependencies() method.
-        return [
-            TrickFixtures::class,
-        ];
     }
 }
