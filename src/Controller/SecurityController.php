@@ -63,7 +63,7 @@ class SecurityController extends BaseController
     /**
      * @Route("/registration", name="app_registration")
      */
-    public function registration(Request $request, FileUploader $fileUploader)
+    public function registration(Request $request, FileUploader $fileUploader, Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
     {
         $form = $this->formFactory->create(UserRegistrationType::class)
             ->handleRequest($request);
@@ -95,9 +95,22 @@ class SecurityController extends BaseController
             }
 
             $this->entityManager->persist($userEntity);
+            //$this->entityManager->flush();
+
+            // Creation of the token
+            $token = $tokenGenerator->generateToken();
+            $userEntity->setToken($token);
+            // Token creation date
+            $userEntity->setPasswordRequestedAt(new \Datetime());
             $this->entityManager->flush();
 
-            $this->flashBag->add('success', 'Super ! Ton inscription a bien été enregistrée :)');
+            // Use of Mailer service to send email
+            $bodyMail = $mailer->createBodyMail('user/mail_confirm_account.html.twig', [
+                'user' => $userEntity
+            ]);
+            $mailer->sendMessage('arsincitrusdev@gmail.com', $userEntity->getEmail(), 'Activation de ton compte', $bodyMail);
+
+            $this->flashBag->add('success', 'Super ! Tu es enregistré :) Tu vas recevoir un courriel pour valider ton inscription');
 
             return new RedirectResponse(
                 $this->urlGenerator->generate('app_homepage')
@@ -141,24 +154,12 @@ class SecurityController extends BaseController
      */
     public function forgotPassword(Request $request, Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
     {
-        $form = $this->formFactory->create(ForgotPasswordType::class)
-            ->handleRequest($request);
+        $form = $this->formFactory->create(ForgotPasswordType::class);
+        $form->remove('username'); // Hide useless 'username' field;
+        $form->remove('password'); // Hide useless 'password' field;
+        $form->handleRequest($request);
 
-        // Validate form by finding given email in the database
-        $formValidation = false;
-        if ($form->isSubmitted()) {
-            $formEmail = $form['email']->getData();
-            if (!is_null($formEmail)) {
-                $formUser = $this->userRepo->findOneBy(['email' => $formEmail]);
-                if (!is_null($formUser)) {
-                    $formValidation = true;
-                }
-            }
-        }
-
-        // Avoid isValid() method because of @UniqueEntity constraint
-        //if ($form->isSubmitted() && $form->isValid()) {
-        if ($form->isSubmitted() && $formValidation) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $email = $form->getData()->getEmail();
 
@@ -217,9 +218,25 @@ class SecurityController extends BaseController
     /**
      * @Route("/edit/account", name="app_edit_account")
      */
-    public function editAccount(Request $request, FileUploader $fileUploader)
+    public function editAccount(Request $request)
     {
         $user = $this->getUser();
+
+        if (!$user) {
+
+            //dump($this->getUser());
+            //dump($this->authUtils->getLastUsername());
+            //$lastUsername = $this->authUtils->getLastUsername();
+            //$user = $this->userRepo->findOneBy(['username' => $lastUsername]);
+            //dump($user);
+            exit;
+
+            $this->flashBag->add('danger', 'Tu as été déconnecté !');
+            return new RedirectResponse(
+                $this->urlGenerator->generate('app_homepage')
+            );
+        }
+
 
         $form = $this->formFactory->create(AccountType::class, $user)
             ->handleRequest($request);
@@ -229,14 +246,14 @@ class SecurityController extends BaseController
             dump($user);
             dump($user->getUsername());
             dump($user->getEmail());
-            //dump($user->getToken());
-           // exit;
+            dump($form);
+            //exit;
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
 
-            exit;
+            //exit;
 
 
 //            //dump($form->getData());
@@ -250,7 +267,7 @@ class SecurityController extends BaseController
 //            }
 
 
-            $formFields = [$form->getData()->getImageFileName(), $form->getData()->getUsername(), $form->getData()->getEmail()];
+            //$formFields = [$form->getData()->getImageFileName(), $form->getData()->getUsername(), $form->getData()->getEmail()];
 
 //            dump($existFields);
 //            dump($formFields);
@@ -332,6 +349,40 @@ class SecurityController extends BaseController
 
 
     /**
+     * @Route("/confirmation/{token}", name="security_confirmation")
+     */
+    public function confirmationToken($token, Request $request)
+    {
+        // Get user with token
+        $user = $this->userRepo->findOneBy(['token' => $token]);
+
+        if ($user) {
+            // Access forbidden if :
+            // Token associated to member is null
+            // Token in database and token in url are different
+            // Token duration is over 10 minutes
+            if ($user->getToken() === null || $token !== $user->getToken() || !$this->isRequestInTime($user->getPasswordRequestedAt()))
+            {
+                throw new AccessDeniedHttpException();
+            }
+            // Token is verified
+            else {
+                if ($user && !$user->isActive()) {
+                    // Activate user
+                    $user->setIsActive(true);
+                    // Set token to null
+                    $user->setToken(null);
+                    $user->setPasswordRequestedAt(null);
+                    $this->entityManager->flush();
+                    $request->getSession()->getFlashBag()->add('success', "Et voilà ! Ton compte est activé ! :)");
+                    return $this->redirectToRoute('app_login');
+                }
+            }
+        }
+    }
+
+
+    /**
      * @Route("/{id}/{token}", name="resetting")
      */
     public function resetting($id, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder)
@@ -357,7 +408,7 @@ class SecurityController extends BaseController
             $user->setPassword($passwordCrypted);
             $user->setUpdatedAt(new \DateTime());
 
-            // réinitialisation du token à null pour qu'il ne soit plus réutilisable
+            // Set token to null
             $user->setToken(null);
             $user->setPasswordRequestedAt(null);
 

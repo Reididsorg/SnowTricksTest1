@@ -36,6 +36,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user1->setImageFileName('bruno.png');
             $user1->setImageAlt('Photo de profil de Bruno');
             $user1->setImagePath('/img/user/');
+            $user1->setIsActive(true);
             $manager->persist($user1);
 
             $user2 = new User();
@@ -47,6 +48,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user2->setImageFileName('samo.png');
             $user2->setImageAlt('Photo de profil de Samo');
             $user2->setImagePath('/img/user/');
+            $user2->setIsActive(true);
             $manager->persist($user2);
 
         $manager->flush();
