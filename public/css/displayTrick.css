@@ -20,8 +20,64 @@
 
 #mainImage .centered h1 {
     color: #AF2A63;
-    font-size: 5rem;
+    font-size: 3rem;
     font-weight: bolder;
+}
+
+#mainImage .top-right {
+    position: absolute;
+    top: 5%;
+    left: 87%;
+}
+
+@media (min-width: 768px) {
+    #mainImage .top-right {
+        font-size: 1.5rem;
+        left: 90%;
+    }
+    #mainImage .centered h1 {
+        font-size: 5rem;
+    }
+}
+
+@media (min-width: 992px) {
+    #mainImage .top-right {
+        font-size: 1.5rem;
+        left: 92%;
+    }
+    #mainImage .centered h1 {
+        font-size: 5rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    #mainImage .top-right {
+        font-size: 2rem;
+        left: 92%;
+    }
+    #mainImage .centered h1 {
+        font-size: 6rem;
+    }
+}
+
+@media (max-width: 767px) {
+    #seeMedias {
+        margin: 20px 0;
+        display: block;
+    }
+    #medias {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    #seeMedias {
+        margin: 20px 0;
+        display: none;
+    }
+    #medias {
+        display: block;
+    }
 }
 
 i.fas-plus {
