@@ -9,8 +9,6 @@
 
     {% block content %}
 
-        {# {{ dump(trick) }} #}
-
         <div class="page-wrapper">
 
             <div class="content col-lg-10 col-md-10 mx-auto bg-light">
@@ -18,12 +16,38 @@
                 <div id="mainImage">
                     {% for image in trick.images %}
                         {% if loop.index == 1 %}
-                        {# {{ dump(image) }} #}
                             <img src="{{ asset(image.path ~ image.filename) }}" alt="{{ image.alt }}" style="width: 100%;">
                         {% endif %}
                     {% endfor %}
                     <div class="centered">
                         <h1>{{ trick.name }}</h1>
+                    </div>
+                    {% if app.user %}
+                        <div class="top-right">
+                            <a href="{{ path('app_edit_trick', {'slug': trick.slug}) }}" class="a-card-pencil"><i class="fas fa-pencil-alt"></i></a>
+                            <a id="remove-trick-{{ trick.slug }}" data-toggle="modal" data-target="#removeTrickModal" href="#" class="a-card-trash"><i class="fas fa-trash-alt"></i></a>
+                            <div class="modal fade" id="removeTrickModal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div id="modal-title" class="modal-body d-flex justify-content-center">
+                                            Voulez-vous vraiment supprimer le trick "{{trick.name}}" ?<br>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-center">
+                                            <a href="#" class="btn btn-secondary btn-md" role="button" data-dismiss="modal">NON</a>
+                                            <a id="modal-remove-trick" href="#" class="btn btn-danger btn-md" role="button">OUI, je veux vraiment supprimer ce trick !</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
+                        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p>
+                        <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
+                        <p class="col">Catégorie : {{ trick.category.name }}</p>
                     </div>
                 </div>
 
@@ -34,34 +58,30 @@
                     </div>
                 </div>
 
-                <div class="row" id="trickImages">
-                    {% for image in trick.images %}
-                        {% if loop.index > 1 %}
-                            <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                <img src="{{ asset(image.path ~ image.fileName) }}" width="100%" alt="{{ image.alt }}">
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                <div class="row" id="trickVideos">
-                    {% for video in trick.videos %}
-
-                        {# {{ dump(video) }} #}
-                        <div class="trickVideo col-sm-12 col-md-12 col-lg-10 col-xl-6 mx-auto mt-4 mb-1 embed-responsive embed-responsive-16by9">
-                            <iframe
-                                    src="{{ asset(video.url) }}">
-                            </iframe>
-                        </div>
-
-                    {% endfor %}
-                </div>
-
                 <div class="row">
-                    <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
-                        <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p>
-                        <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
-                        <p class="col">Catégorie : {{ trick.category.name }}</p>
+                    <div class="mx-auto">
+                        <button id="seeMedias" type="button" class="btn btn-secondary">Voir les médias</button>
+                    </div>
+                </div>
+
+                <div id="medias">
+                    <div class="row" id="trickImages">
+                        {% for image in trick.images %}
+                            {% if loop.index > 1 %}
+                                <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                                    <img src="{{ asset(image.path ~ image.fileName) }}" width="100%" alt="{{ image.alt }}">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="row" id="trickVideos">
+                        {% for video in trick.videos %}
+                            <div class="trickVideo col-sm-12 col-md-12 col-lg-10 col-xl-6 mx-auto mt-4 mb-1 embed-responsive embed-responsive-16by9">
+                                <iframe
+                                        src="{{ asset(video.url) }}">
+                                </iframe>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -111,5 +131,5 @@
 
     {% block javascripts %}
         {{ parent() }}
-        <script src="{{ asset('js/createTrick.js') }}"></script>
+        <script src="{{ asset('js/displayTrick.js') }}"></script>
     {% endblock %}
