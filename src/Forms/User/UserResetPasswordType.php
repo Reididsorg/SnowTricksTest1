@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Forms;
+namespace App\Forms\User;
 
 
 use App\Entity\User;
@@ -12,11 +12,13 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ResetPasswordType extends AbstractType
+class UserResetPasswordType extends AbstractType
 {
-    private $userRepository;
+    protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository
+    )
     {
         $this->userRepository = $userRepository;
     }
@@ -37,7 +39,6 @@ class ResetPasswordType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            //'validation_groups' => false, // Disable Doctrine validation of all fields of this form
         ]);
     }
 }

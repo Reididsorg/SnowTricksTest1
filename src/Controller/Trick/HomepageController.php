@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Trick;
 
 
 use App\Repository\ImageRepository;
@@ -20,8 +20,6 @@ class HomepageController extends AbstractController
         $this->trickRepository = $trickRepository;
         $this->imageRepository = $imageRepository;
     }
-
-
 
     /**
      * @Route("/", name="app_homepage")
@@ -43,11 +41,9 @@ class HomepageController extends AbstractController
      */
     public function seeMoreTricks($offset)
     {
-        //$moreTricks = $this->trickRepository->findBy([], ['createdAt' => 'DESC'], 15, $offset);
         $moreTricks = $this->trickRepository->getTricks($offset, 15);
 
         return $this->render('tricks/see_more_tricks.html.twig', [
-            //'moreTricks' => $moreTricks,
             'tricks' => $moreTricks,
         ]);
 

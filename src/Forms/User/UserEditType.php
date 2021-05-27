@@ -1,21 +1,25 @@
 <?php
 
 
-namespace App\Forms;
+namespace App\Forms\User;
 
 
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ForgotPasswordType extends AbstractType
+class UserEditType extends AbstractType
 {
-    private $userRepository;
+    protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository
+    )
     {
         $this->userRepository = $userRepository;
     }
@@ -23,10 +27,23 @@ class ForgotPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('username',
+                TextType::class,
+                [
+                    'label' => 'Nom d\'utilisateur'
+                ]
+            )
             ->add('email',
                 EmailType::class,
                 [
                     'label' => 'Email'
+                ]
+            )
+            ->add('imageFileName',
+                FileType::class,
+                [
+                    'label' => 'Sélectionnez un fichier',
+                    'data_class' => null
                 ]
             )
         ;
@@ -36,7 +53,7 @@ class ForgotPasswordType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            //'validation_groups' => false, // Disable Doctrine validation of all fields of this form
+//            'validation_groups' => ['editaccount'],
         ]);
     }
 }

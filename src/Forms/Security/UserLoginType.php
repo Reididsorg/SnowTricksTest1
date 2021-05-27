@@ -1,23 +1,23 @@
 <?php
 
 
-namespace App\Forms;
-
+namespace App\Forms\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AccountType extends AbstractType
+class UserLoginType extends AbstractType
 {
-    private $userRepository;
+    protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository
+    )
     {
         $this->userRepository = $userRepository;
     }
@@ -31,17 +31,11 @@ class AccountType extends AbstractType
                     'label' => 'Nom d\'utilisateur'
                 ]
             )
-            ->add('email',
-                EmailType::class,
+
+            ->add('password',
+                PasswordType::class,
                 [
-                    'label' => 'Email'
-                ]
-            )
-            ->add('imageFileName',
-                FileType::class,
-                [
-                    'label' => 'Sélectionnez un fichier',
-                    'data_class' => null
+                    'label' => 'Mot de passe'
                 ]
             )
         ;
@@ -51,7 +45,7 @@ class AccountType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-//            'validation_groups' => ['editaccount'],
+            'validation_groups' => ['Default', 'registration'],
         ]);
     }
 }

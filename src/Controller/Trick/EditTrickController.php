@@ -1,12 +1,13 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Trick;
 
 
+use App\Controller\BaseController;
 use App\Forms\TrickType;
 use App\Repository\TrickRepository;
-use App\Service\FileUploader;
+use App\Service\Trick\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;

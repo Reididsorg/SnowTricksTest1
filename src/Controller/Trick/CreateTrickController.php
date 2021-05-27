@@ -1,10 +1,12 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Trick;
 
+use App\Controller\BaseController;
 use App\Forms\TrickType;
-use App\Service\FileUploader;
+use App\Service\Trick\FileUploader;
+use App\Service\Trick\TrickSaver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -31,7 +33,8 @@ class CreateTrickController extends BaseController
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
-        FlashBagInterface $flashBag
+        FlashBagInterface $flashBag,
+        TrickSaver $trickSaver
     )
     {
         $this->templating = $templating;
@@ -39,55 +42,30 @@ class CreateTrickController extends BaseController
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->flashBag = $flashBag;
+        $this->trickSaver = $trickSaver;
     }
 
     /**
      * @Route("/createTrick", name="app_create_trick")
      */
-    public function createTrick(Request $request, FileUploader $fileUploader, string $targetDirectory)
+    public function createTrick(Request $request)
     {
         $form = $this->formFactory->create(TrickType::class)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $formErrors = [];
+           $formErrors = [];
 
             // If no image : Error pointed on global form
             if (empty($form['images']->getData())) {
                 $formErrors[] = 'images';
             }
             else {
-                $trickEntity = $form->getData();
-                $imageElements = $trickEntity->getImages();
 
-                if ($imageElements) {
-                    $i = 0;
-                    foreach($imageElements  as $imageElement)
-                    {
-                        /** @var UploadedFile $imageFile */
-                        $imageFile = $form['images'][$i]['fileName']->getData();
+                //$trickToSave = $this->trickSaver->saveTrick($request, $fileUploader, $form);
+                $trickToSave = $this->trickSaver->saveTrick($form);
 
-                        // If no fileName : Error pointed to fileName field
-                        if (is_null($imageElement->getFileName())) {
-                            $formErrors[] = 'fileName';
-                        }
-
-                        if ($imageFile) {
-                            // Set first image of collection as main image
-                            if($i == 0) {
-                                $imageElement->setMain(true);
-                            }
-                            // Upload file to local file with a new unique name
-                            $imageFileName = $fileUploader->upload($imageFile);
-                            // Set the new filename
-                            $imageElement->setFileName($imageFileName);
-                            // Set the path
-                            $imageElement->setPath($fileUploader->getAppUploadsDirectory());
-                        }
-                        $i++;
-                    }
-                }
             }
 
             if ($formErrors) {
@@ -110,18 +88,18 @@ class CreateTrickController extends BaseController
             }
 
             // Set user to trick
-            $trickEntity->setUser($this->getUser());
+            $trickToSave->setUser($this->getUser());
 
-            $this->flashBag->add('success', 'super ! Le trick <strong>' . $trickEntity->getName() . '</strong> a bien été enregistré !');
+            $this->flashBag->add('success', 'super ! Le trick <strong>' . $trickToSave->getName() . '</strong> a bien été enregistré !');
 
-            $this->entityManager->persist($trickEntity);
+            $this->entityManager->persist($trickToSave);
             $this->entityManager->flush();
 
             return new RedirectResponse(
                 $this->urlGenerator->generate(
                     'app_display_trick',
                     [
-                        'slug' => $trickEntity->getSlug(),
+                        'slug' => $trickToSave->getSlug(),
                     ]
                 )
             );

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Trick;
 
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;

@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Trick;
 
 
+use App\Controller\BaseController;
 use App\Entity\Comment;
 use App\Forms\CommentType;
 use App\Repository\TrickRepository;

@@ -11,7 +11,7 @@ Hey {{ user.username }} !
 <p>Clique sur le lien ci-dessous. Cela activera ton compte et te permettra de te connecter :)</p>
 {# For the link to work, it needs an absolute link. #}
 <p>
-    <a href="{{absolute_url(path('security_confirmation', {'token': user.token}))}}">Activation de mon compte</a>
+    <a href="{{absolute_url(path('app_activate_account', {'token': user.token}))}}">Activation de mon compte</a>
 </p>
 </body>
 </html>
