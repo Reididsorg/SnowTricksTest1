@@ -44,17 +44,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     public function getCredentials(Request $request)
     {
         $credentials = [
-            'username' => $request->request->get('user_registration')['username'],
-            'password' => $request->request->get('user_registration')['password'],
-            'csrf_token' => $request->request->get('user_registration')['_token']
+            'username' => $request->request->get('user_login')['username'],
+            'password' => $request->request->get('user_login')['password'],
+            'csrf_token' => $request->request->get('user_login')['_token']
         ];
 
         $request->getSession()->set(
             Security::LAST_USERNAME,
             $credentials['username'],
         );
-
-        //dd($credentials);
 
         return $credentials;
     }
@@ -79,7 +77,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         if (!$user->isActive()) {
-            throw new CustomUserMessageAuthenticationException('Ton compte n\'est pas encore activé. Active-la via le lien qui a été envoyé par courriel !');
+            throw new CustomUserMessageAuthenticationException('Ton compte n\'est pas encore activé. Active-le via le lien qui a été envoyé par courriel !');
         }
 
         return true;

@@ -3,7 +3,7 @@
 
 namespace App\Entity;
 
-use App\Service\FileUploader;
+use App\Service\Trick\FileUploader;
 use App\Validator as AcmeAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Forms;
+namespace App\Forms\User;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -16,9 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserRegistrationType extends AbstractType
 {
-    private $userRepository;
+    protected UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository
+    )
     {
         $this->userRepository = $userRepository;
     }
@@ -41,25 +43,27 @@ class UserRegistrationType extends AbstractType
 
             )
 
-//            ->add('password',
-//                RepeatedType::class,
-//                [
-//                    'type' => PasswordType::class,
-//                    'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
-//                    'first_options' => [
-//                        'label' => 'Mot de passe'
-//                    ],
-//                    'second_options' => [
-//                        'label' => 'Confirmer le mot de passe'
-//                    ]
-//                ]
-//            )
             ->add('password',
-                PasswordType::class,
+                RepeatedType::class,
                 [
-                    'label' => 'Mot de passe'
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'Les 2 mots de passe doivent être identiques.',
+                    'first_options' => [
+                        'label' => 'Mot de passe'
+                    ],
+                    'second_options' => [
+                        'label' => 'Confirmer le mot de passe'
+                    ]
                 ]
             )
+
+//            ->add('password',
+//                PasswordType::class,
+//                [
+//                    'label' => 'Mot de passe'
+//                ]
+//            )
+
             ->add('imageFileName',
                 FileType::class,
                 [
@@ -78,5 +82,4 @@ class UserRegistrationType extends AbstractType
             'validation_groups' => ['Default', 'registration'],
         ]);
     }
-
 }

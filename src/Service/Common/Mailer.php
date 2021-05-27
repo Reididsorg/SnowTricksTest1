@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Common;
 
 
 use Symfony\Component\HttpFoundation\Response;
