@@ -7,7 +7,6 @@ namespace App\Listeners;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 class LogoutListener
@@ -25,9 +24,5 @@ class LogoutListener
     public function onSymfonyComponentSecurityHttpEventLogoutEvent(LogoutEvent $logoutEvent): void
     {
         $this->flashBag->add('success', 'Au revoir '. ucfirst($this->tokenStorage->getToken()->getUsername()) .' ! A bientôt !');
-
-        //dump($logoutEvent, $logoutEvent->getRequest()->getSession(), $this->tokenStorage->getToken()->getUsername());
-        //exit;
-
     }
 }

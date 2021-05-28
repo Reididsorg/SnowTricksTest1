@@ -15,7 +15,10 @@ class HomepageController extends AbstractController
    protected TrickRepository $trickRepository;
    protected ImageRepository $imageRepository;
 
-    public function __construct(TrickRepository $trickRepository, ImageRepository $imageRepository)
+    public function __construct(
+        TrickRepository $trickRepository,
+        ImageRepository $imageRepository
+    )
     {
         $this->trickRepository = $trickRepository;
         $this->imageRepository = $imageRepository;
@@ -27,7 +30,6 @@ class HomepageController extends AbstractController
     public function showHomepage()
     {
         $tricks = $this->trickRepository->getTricks(0, 5);
-        //$allTricks = $this->trickRepository->getAllTricks();
         $images = $this->imageRepository->findAll();
 
         return $this->render('tricks/homepage.html.twig', [
@@ -48,5 +50,4 @@ class HomepageController extends AbstractController
         ]);
 
     }
-
 }

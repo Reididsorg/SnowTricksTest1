@@ -21,11 +21,11 @@ class Category extends AbstractEntity
      */
     protected string $name;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="category", orphanRemoval=true)
-//     *
-//     */
-//    protected Collection $trick;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="category", orphanRemoval=true)
+     *
+     */
+    protected Collection $tricks;
 
     /**
      * @return string
@@ -43,19 +43,19 @@ class Category extends AbstractEntity
         $this->name = $name;
     }
 
-//    /*
-//     * @return Trick
-//     */
-//    public function getTrick()
-//    {
-//        return $this->trick;
-//    }
-//
-//    /*
-//     * @param Trick $trick
-//     */
-//    public function setTrick(Trick $trick): void
-//    {
-//        $this->tricks = $trick;
-//    }
+    /*
+     * @return Trick
+     */
+    public function getTrick()
+    {
+        return $this->trick;
+    }
+
+    /*
+     * @param Trick $trick
+     */
+    public function setTrick(Trick $trick): void
+    {
+        $this->tricks = $trick;
+    }
 }
