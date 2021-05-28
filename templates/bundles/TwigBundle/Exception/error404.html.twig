@@ -1,11 +1,30 @@
 {# templates/bundles/TwigBundle/Exception/error404.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block content %}
-    <h1>Page not found</h1>
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    {% endblock %}
 
-    <p>
-        The requested page couldn't be located. Checkout for any URL
-        misspelling or <a href="{{ path('app_homepage') }}">return to the homepage</a>.
-    </p>
-{% endblock %}
+    {% block title %}SnowTricks - Erreur 404{% endblock %}
+
+    {% block content %}
+
+        <div class="page-wrapper">
+
+            <div class="content col-lg-5 col-md-8 mx-auto my-auto">
+
+                <h1 class="text-center">Page non trouvée</h1>
+
+                <p>La page demandée n'a pas été trouvée. Essaie de vérifier si l'url est correcte ou alors va sur la <a href="{{ path('app_homepage') }}">page d'accueil</a>.</p>
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/user.js') }}"></script>
+    {% endblock %}

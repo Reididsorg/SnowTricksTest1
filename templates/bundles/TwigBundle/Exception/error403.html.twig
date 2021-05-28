@@ -1,8 +1,30 @@
-{% extends 'base' %}
+{# templates/bundles/TwigBundle/Exception/error403.html.twig #}
+{% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Page non trouvée{% endblock %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    {% endblock %}
 
-{% block body %}
-    <h2>Oups ! La page que vous recherchez n'existe pas !</h2>
-    <a href="{{ path('home') }}" class="btn btn-primary">Retour à la page d'accueil</a>
-{% endblock %}
+    {% block title %}SnowTricks - Erreur 403{% endblock %}
+
+    {% block content %}
+
+        <div class="page-wrapper">
+
+            <div class="content col-lg-5 col-md-8 mx-auto my-auto">
+
+                <h1 class="text-center">Accès interdit</h1>
+
+                <p>Tu ne possèdes pas les droits pour accéder à ce contenu.</p>
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/user.js') }}"></script>
+    {% endblock %}
