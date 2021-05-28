@@ -1,10 +1,30 @@
-{% extends 'base' %}
+{# templates/bundles/TwigBundle/Exception/error.html.twig #}
+{% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1>Erreur</h1>
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/user.css') }}">
+    {% endblock %}
 
-    <p>
-        Euh ....
-        misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
-    </p>
-{% endblock %}
+    {% block title %}SnowTricks - Erreur{% endblock %}
+
+    {% block content %}
+
+        <div class="page-wrapper">
+
+            <div class="content col-lg-5 col-md-8 mx-auto my-auto">
+
+                <h1 class="text-center">ERREUR</h1>
+
+                <p>E.R.R.E.U.R</p>
+
+            </div>
+
+        </div>
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script src="{{ asset('js/user.js') }}"></script>
+    {% endblock %}
