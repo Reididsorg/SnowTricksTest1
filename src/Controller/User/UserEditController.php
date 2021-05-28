@@ -6,7 +6,6 @@ namespace App\Controller\User;
 
 use App\Controller\BaseController;
 use App\Forms\User\UserEditType;
-use App\Service\Trick\FileUploader;
 use App\Service\User\UserEditionManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,7 +41,7 @@ class UserEditController extends BaseController
     /**
      * @Route("/edit/account", name="app_edit_account")
      */
-    public function editAccount(Request $request, FileUploader $fileUploader)
+    public function editAccount(Request $request)
     {
         $user = $this->getUser();
 
@@ -71,7 +70,7 @@ class UserEditController extends BaseController
 
                 if ($form->isSubmitted() && $form->isValid()) {
 
-                    $userToEdit = $this->userEditionManager->editUser($form, $fileUploader, $user, $userOriginalImageName);
+                    $userToEdit = $this->userEditionManager->editUser($form, $user, $userOriginalImageName);
 
                     if ($userToEdit === true) {
                         $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');

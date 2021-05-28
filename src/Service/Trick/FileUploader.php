@@ -18,7 +18,7 @@ class FileUploader
         $this->appUploadsDirectory = $appUploadsDirectory;
     }
 
-    public function upload(UploadedFile $file): string
+    public function upload(UploadedFile $file, $givenRatio): string
     {
         $originalFilePath = $file->getPathname();
         $mime = getimagesize($originalFilePath);
@@ -30,16 +30,22 @@ class FileUploader
             $tempImg = imagecreatefromjpeg($originalFilePath);
         }
 
-        $ratio16x9 = 16 / 9;
+        if ($givenRatio === 'square') {
+            $ratioToAdapt = 1;
+        }
+        if ($givenRatio === '16/9') {
+            $ratioToAdapt = 16 / 9;
+        }
+
         $ratio = imagesx($tempImg) / imagesy($tempImg);
 
         // If aspect ratio is not 16/9 : Crop image to adapt to 16/9
-        if(!(round($ratio, 2) === round($ratio16x9, 2))) {
-            if($ratio < $ratio16x9) {
+        if(!(round($ratio, 2) === round($ratioToAdapt, 2))) {
+            if($ratio < $ratioToAdapt) {
                 $width = imagesx($tempImg);
                 $height = (imagesx($tempImg) / 16) * 9;
             }
-            else if($ratio > $ratio16x9) {
+            else if($ratio > $ratioToAdapt) {
                 $width = (imagesy($tempImg) / 9) * 16;
                 $height = imagesy($tempImg);
             }

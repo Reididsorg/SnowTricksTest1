@@ -6,6 +6,7 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Service\Common\Mailer;
+use App\Service\Trick\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -15,18 +16,21 @@ class UserRegistrationManager
     protected EntityManagerInterface $entityManager;
     protected EncoderFactoryInterface $encoderFactory;
     protected Mailer $mailer;
+    protected FileUploader $fileUploader;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         EncoderFactoryInterface $encoderFactory,
-        Mailer $mailer
+        Mailer $mailer,
+        FileUploader $fileUploader
     ) {
         $this->entityManager = $entityManager;
         $this->encoderFactory = $encoderFactory;
         $this->mailer = $mailer;
+        $this->fileUploader = $fileUploader;
     }
 
-    public function createUser ($form, $fileUploader, $tokenGenerator)
+    public function createUser ($form, $tokenGenerator)
     {
         $userEntity = $form->getData();
 
@@ -40,7 +44,7 @@ class UserRegistrationManager
             $imageFile = $form['imageFileName']->getData();
 
             // Upload file to local file with a new unique name
-            $imageFileName = $fileUploader->upload($imageFile);
+            $imageFileName = $this->fileUploader->upload($imageFile, 'square');
 
             // Set the new filename
             $form->getData()->setImageFileName($imageFileName);
@@ -49,7 +53,7 @@ class UserRegistrationManager
             $form->getData()->setImageAlt('Photo de profil de ' . $userEntity->getUserName());
 
             // Set the path
-            $form->getData()->setImagePath($fileUploader->getAppUploadsDirectory());
+            $form->getData()->setImagePath($this->fileUploader->getAppUploadsDirectory());
         }
 
         $this->entityManager->persist($userEntity);

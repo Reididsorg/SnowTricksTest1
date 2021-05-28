@@ -7,7 +7,6 @@ namespace App\Controller\User;
 use App\Controller\BaseController;
 use App\Forms\User\UserRegistrationType;
 use App\Repository\UserRepository;
-use App\Service\Trick\FileUploader;
 use App\Service\User\UserRegistrationManager;
 use App\Service\User\UserTokenChecker;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,14 +54,14 @@ class UserRegistrationController extends BaseController
     /**
      * @Route("/registration", name="app_registration")
      */
-    public function registration(Request $request, FileUploader $fileUploader, TokenGeneratorInterface $tokenGenerator)
+    public function registration(Request $request, TokenGeneratorInterface $tokenGenerator)
     {
         $form = $this->formFactory->create(UserRegistrationType::class)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $userToSave = $this->userRegistrationManager->createUser($form, $fileUploader, $tokenGenerator);
+            $userToSave = $this->userRegistrationManager->createUser($form, $tokenGenerator);
 
             $this->flashBag->add('success', 'Super ! Tu es enregistré :) Tu vas recevoir un courriel pour valider ton inscription');
 
