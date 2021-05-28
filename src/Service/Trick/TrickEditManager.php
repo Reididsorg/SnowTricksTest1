@@ -219,7 +219,7 @@ class TrickEditManager
 
                             if ($imageFile) {
                                 // Upload file to local file with a new unique name
-                                $imageFileName = $this->fileUploader->upload($imageFile);
+                                $imageFileName = $this->fileUploader->upload($imageFile, '16/9');
                                 // Set the new filename
                                 $form->getData()->getImages()[$key]->setFileName($imageFileName);
                                 // Set the path
