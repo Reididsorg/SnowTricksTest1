@@ -5,12 +5,10 @@ namespace App\Controller\Trick;
 
 use App\Controller\BaseController;
 use App\Forms\TrickType;
-use App\Service\Trick\FileUploader;
 use App\Service\Trick\TrickSaver;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,10 +60,7 @@ class CreateTrickController extends BaseController
                 $formErrors[] = 'images';
             }
             else {
-
-                //$trickToSave = $this->trickSaver->saveTrick($request, $fileUploader, $form);
                 $trickToSave = $this->trickSaver->saveTrick($form);
-
             }
 
             if ($formErrors) {

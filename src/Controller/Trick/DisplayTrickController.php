@@ -48,8 +48,10 @@ class DisplayTrickController extends BaseController
      */
     public function displayTrick($slug, Request $request)
     {
+        // Get the trick to display
         $trick = $this->trickRepository->findOneBySlug($slug);
 
+        // Create a new comment
         $comment = new Comment();
 
         $form = $this->formFactory->create(CommentType::class, $comment)
@@ -57,7 +59,6 @@ class DisplayTrickController extends BaseController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            //$comment->setCreatedAt(new \DateTime());
             $comment->setTrick($trick);
             $comment->setUser($this->getUser());
 

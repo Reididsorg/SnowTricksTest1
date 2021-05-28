@@ -5,7 +5,6 @@ namespace App\Controller\Trick;
 
 
 use App\Controller\BaseController;
-use App\Service\Trick\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Repository\TrickRepository;
