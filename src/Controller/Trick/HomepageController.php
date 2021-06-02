@@ -43,7 +43,7 @@ class HomepageController extends AbstractController
      */
     public function seeMoreTricks($offset)
     {
-        $moreTricks = $this->trickRepository->getTricks($offset, 15);
+        $moreTricks = $this->trickRepository->getTricks($offset, 5);
 
         return $this->render('tricks/see_more_tricks.html.twig', [
             'tricks' => $moreTricks,

@@ -23,8 +23,8 @@ class TrickRepository extends ServiceEntityRepository
     public function getTricks(int $offset, int $limit)
     {
         $qb = $this->createQueryBuilder('t')
-            ->orderBy('t.createdAt', 'DESC')
-            //->orderBy('t.id', 'ASC')
+            //->orderBy('t.createdAt', 'DESC')
+            ->orderBy('t.id', 'DESC')
             ->getQuery();
 
         $qb->setFirstResult($offset)

@@ -4,25 +4,15 @@
 var click = 0;
 
 $('#seeMoreTricks').on('click', function(e) {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-    /* Javascript data attribute */
-    const url = e.target.dataset.urlmore;
-    /*console.warn(url);*/
     click++;
     var offset = 5 * click;
-
-    console.warn(offset);
-
+    /*console.warn(offset);*/
     var newUrl = '/seemoretricks/' + offset;
-
     $.ajax({
-        /*url: '/seemoretricks/' + offset,*/
-        /*url: url + offset,*/
         url: newUrl,
         method: 'POST'
     }).then(function(data) {
-        console.warn(data);
+        /*console.warn(data);*/
         $('#tricksList').append(data);
     });
 });

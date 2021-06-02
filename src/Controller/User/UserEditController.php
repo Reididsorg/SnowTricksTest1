@@ -72,7 +72,7 @@ class UserEditController extends BaseController
 
                     $userToEdit = $this->userEditionManager->editUser($form, $user, $userOriginalImageName);
 
-                    if ($userToEdit === true) {
+                    if ($userToEdit) {
                         $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');
 
                         return new RedirectResponse(

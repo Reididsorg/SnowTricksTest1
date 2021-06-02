@@ -1,0 +1,11 @@
+<div class="comment row mx-auto">
+    <div class="col-xl-8 col-lg-10 col-12 row mx-auto">
+        <p class="col-lg-2 col-12 d-none d-lg-block  comment-img">
+            <img src="{{ asset(comment.user.imagePath ~ '/' ~ comment.user.imageFileName) }}" class="rounded mx-auto d-block" alt="comment.user.imageAlt" height="50">
+        </p>
+        <p class="col-lg-10 col-12 comment-text">
+            <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
+            <br>{{ comment.content }}
+        </p>
+    </div>
+</div>
