@@ -46,7 +46,9 @@
                 <div class="row">
                     <div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
                         <p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} par {{ trick.user.username }}</p>
-                        <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
+                        {% if trick.updatedAt %}
+                            <p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }} à {{ trick.updatedAt | date('H:i') }}</p>
+                        {% endif %}
                         <p class="col">Catégorie : {{ trick.category.name }}</p>
                     </div>
                 </div>
@@ -104,23 +106,32 @@
 
                 <hr>
 
+                {% set allcomments = [] %}
+                {% for comment in trick.comments %}
+                    {% set index = loop.index %}
+                    {% set allcomments = allcomments|merge(
+                        [
+                            {
+                                "id": comment.id,
+                                "userName": comment.user.username,
+                                "userImagePath": comment.user.imagePath,
+                                "userImageFilename": comment.user.imageFileName,
+                                "userImageAlt": comment.user.imageFileName,
+                                "trickCreatedAt": comment.trick.createdAt | date('d/m/Y à H:i'),
+                                "content": comment.content
+                            }
+                        ]
+                    ) %}
+                {% endfor %}
+                {# {{ dump(allcomments) }} #}
+
                 <section id="comments">
                     {% for comment in trick.comments | slice(0,5) %}
-                        <div class="comment row mx-auto">
-                            <div class="col-xl-8 col-lg-10 col-12 row mx-auto">
-                                <p class="col-lg-2 col-12 d-none d-lg-block  comment-img">
-                                    <img src="{{ asset(comment.user.imagePath ~ '/' ~ comment.user.imageFileName) }}" class="rounded mx-auto d-block" alt="comment.user.imageAlt" height="50">
-                                </p>
-                                <p class="col-lg-10 col-12 comment-text">
-                                    <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
-                                    <br>{{ comment.content }}
-                                </p>
-                            </div>
-                        </div>
+                        {{ include('tricks/_inc/trick_comments.html.twig') }}
                     {% endfor %}
                 </section>
                 <div class="row text-center">
-                    <button id="loadMoreComments" class="btn btn-primary col-md-6 col-8 mx-auto">Voir plus de commentaires</button>
+                    <button id="loadMoreComments" class="btn btn-primary col-md-6 col-8 mx-auto" data-commentstodisplay="{{ allcomments|json_encode }}">Voir plus de commentaires</button>
                 </div>
 
             </div>
