@@ -61,7 +61,7 @@ class UserRegistrationController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $userToSave = $this->userRegistrationManager->createUser($form, $tokenGenerator);
+            $this->userRegistrationManager->createUser($form, $tokenGenerator);
 
             $this->flashBag->add('success', 'Super ! Tu es enregistré :) Tu vas recevoir un courriel pour valider ton inscription');
 

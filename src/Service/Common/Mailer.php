@@ -21,7 +21,7 @@ class Mailer
         $this->mailer = $mailer;
     }
 
-    public function sendMessage($from, $to, $subject, $body, $attachement = null)
+    public function sendMessage($from, $to, $subject, $body)
     {
         $mail = (new \Swift_Message($subject))
             ->setFrom($from, 'Snowtricks')

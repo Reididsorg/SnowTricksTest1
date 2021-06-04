@@ -57,10 +57,10 @@ class FileUploader
                 $new_thumb_loc = $originalFilePath;
 
                 if($mime['mime']=='image/png') {
-                    $result = imagepng($croppedImg,$new_thumb_loc,8);
+                    imagepng($croppedImg,$new_thumb_loc,8);
                 }
                 if($mime['mime']=='image/jpg' || $mime['mime']=='image/jpeg' || $mime['mime']=='image/pjpeg') {
-                    $result = imagejpeg($croppedImg,$new_thumb_loc,80);
+                    imagejpeg($croppedImg,$new_thumb_loc,80);
                 }
                 //imagedestroy($croppedImg);
             }
