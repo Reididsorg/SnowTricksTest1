@@ -140,8 +140,6 @@ class TrickEditManager
             'formExistVideos' => $formExistVideos,
             'existVideoUrls' => $existVideoUrls
         ];
-
-
     }
 
     public function updateTrick (
@@ -296,11 +294,14 @@ class TrickEditManager
             }
         }
 
-        // Updated form is now ready for persist/flush
         $trickEntity = $form->getData();
-        $trickEntity->setUpdatedAt(new \DateTime());
-        $this->entityManager->persist($trickEntity);
-        $this->entityManager->flush();
+
+        // Update form only if no errors
+        if (!$formErrors) {
+            $trickEntity->setUpdatedAt(new \DateTime());
+            $this->entityManager->persist($trickEntity);
+            $this->entityManager->flush();
+        }
 
         return ['formErrors' => $formErrors, 'trickEntity' => $trickEntity];
     }

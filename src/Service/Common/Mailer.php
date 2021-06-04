@@ -31,22 +31,19 @@ class Mailer
             ->setReplyTo($from)
             ->setContentType('text/html');
 
-        //$this->mailer->send($mail);
-        if (!$this->mailer->send($mail, $errors)) {
-            dump($errors);
-            exit;
-        }
-        else {
-            dump($errors);
-            //exit;
-        }
+        $this->mailer->send($mail);
+//        if (!$this->mailer->send($mail, $errors)) {
+//            dump($errors);
+//            exit;
+//        }
+//        else {
+//            dump($errors);
+//            //exit;
+//        }
     }
 
     public function createBodyMail($view, array $parameters)
     {
-//        dump($view);
-//        dump($parameters);
-//        exit;
         return $this->engine->render($view, $parameters);
     }
 }

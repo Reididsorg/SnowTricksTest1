@@ -67,11 +67,8 @@ class UserEditController extends BaseController
             $differences = array_diff($formUser, $originalUser);
 
             if (!empty($differences)) {
-
                 if ($form->isSubmitted() && $form->isValid()) {
-
                     $userToEdit = $this->userEditionManager->editUser($form, $user, $userOriginalImageName);
-
                     if ($userToEdit) {
                         $this->flashBag->add('success', 'Super ! Ton compte a été mis à jour avec succès ! :)');
 
@@ -79,11 +76,8 @@ class UserEditController extends BaseController
                             $this->urlGenerator->generate('app_edit_account')
                         );
                     }
-
                 }
-
             }
-
         }
 
         return new Response(

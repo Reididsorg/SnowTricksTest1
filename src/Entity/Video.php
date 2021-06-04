@@ -88,5 +88,4 @@ class Video extends AbstractEntity
     {
         $this->trick = $trick;
     }
-
 }

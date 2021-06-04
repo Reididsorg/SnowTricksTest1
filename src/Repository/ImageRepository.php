@@ -27,5 +27,4 @@ class ImageRepository extends ServiceEntityRepository
     {
         return $this->findAll();
     }
-
 }

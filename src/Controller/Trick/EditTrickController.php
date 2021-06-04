@@ -84,7 +84,7 @@ class EditTrickController extends BaseController
                         );
                     }
                     if ($fieldError === 'images') {
-                        $dataToCompare['form']['images']->addError(new FormError('Veuillez ajouter au moins une image !'));
+                        $dataToCompare['form']['images']->addError(new FormError('Il faut ajouter au moins une image !'));
                     }
                     if ($fieldError === 'noChange') {
                         $dataToCompare['form']['images']->addError(new FormError(

@@ -43,19 +43,19 @@ class Category extends AbstractEntity
         $this->name = $name;
     }
 
-    /*
-     * @return Trick
+    /**
+     * @return Collection
      */
-    public function getTrick()
+    public function getTricks(): Collection
     {
-        return $this->trick;
+        return $this->tricks;
     }
 
-    /*
-     * @param Trick $trick
+    /**
+     * @param Collection $tricks
      */
-    public function setTrick(Trick $trick): void
+    public function setTricks(Collection $tricks): void
     {
-        $this->tricks = $trick;
+        $this->tricks = $tricks;
     }
 }

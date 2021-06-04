@@ -17,7 +17,7 @@ class TrickSaver
         $this->fileUploader = $fileUploader;
     }
 
-    public function saveTrick ($form)
+    public function saveTrick ($form, $formErrors)
     {
         $trickEntity = $form->getData();
         $imageElements = $trickEntity->getImages();
@@ -50,8 +50,6 @@ class TrickSaver
             }
         }
 
-        return $trickEntity;
-
+        return ['trickEntity' => $trickEntity, 'formErrors'=> $formErrors];
     }
-
 }

@@ -9,14 +9,11 @@
 
     {% block content %}
         <div class="content-homePage">
-
             <div id="carousel-container" class="container-fluid">
                 <!-- Carousel -->
                 {{ include('tricks/carousel.html.twig') }}
             </div>
-
             <div class="container-fluid">
-
                 <!-- Tricks gallery -->
                 <section id="tricks-gallery" class="gallery position-relative">
                     {# {{ dump(tricks) }} #}
@@ -25,7 +22,6 @@
                         {{ include('tricks/_inc/thumbnail_trick.html.twig') }}
                     {% endfor %}
                     </div>
-
                     <!-- See more button -->
                     <div class="row">
                         <div class="col-12 text-center">
@@ -35,9 +31,7 @@
                     </div>
                     <a href="#tricks" id="anchor-up"><i class="fas fa-arrow-up fa-2x"></i></a>
                 </section>
-
             </div>
-
         </div>
     {% endblock %}
 

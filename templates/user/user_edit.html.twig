@@ -8,21 +8,13 @@
     {% block title %}SnowTricks - Mon compte{% endblock %}
 
     {% block content %}
-
         <div class="page-wrapper">
-
             <div id="signin" class="content col-lg-5 col-md-8 mx-auto my-auto">
-
                 <h1 class="text-center">Mon compte</h1>
-
                 {{ form_start(form) }}
-
                     {{ form_errors(form) }}
-
-                    {# {{ form_row(form.username, {'disabled':'disabled'}) }} #}
                     {{ form_row(form.username) }}
                     {{ form_row(form.email) }}
-
                     <fieldset class="form-group">
                         <label>Photo</label>
                         <ul class="images">
@@ -42,17 +34,12 @@
                             </li>
                         </ul>
                     </fieldset>
-
                     <button type="submit" class="btn btn-success" formnovalidate>
                         <i class="fas fa-download"></i> Enregistrer les modifications
                     </button>
-
                 {{ form_end(form) }}
-
             </div>
-
         </div>
-
     {% endblock %}
 
     {% block javascripts %}

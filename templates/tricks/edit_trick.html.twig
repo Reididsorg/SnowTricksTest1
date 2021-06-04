@@ -8,25 +8,15 @@
     {% block title %}SnowTricks - Modification du trick{% endblock %}
 
     {% block content %}
-
         <div class="page-wrapper">
-
             <div id="create-trick" class="content col-lg-5 col-md-8 mx-auto">
-
                 <h1 class="text-center">Modification du trick</h1>
-
-                {# {{ dump(form.vars.data) }} #}
-
                 <!-- Form -->
                 {{ form_start(form) }}
-
-                {# {{ form_widget(form) }} #}
                 {{ form_errors(form) }}
-
                 {{ form_row(form.name) }}
                 {{ form_row(form.description) }}
                 {{ form_row(form.category) }}
-
                 <fieldset class="form-group">
                     <label>Image(s)</label>
                     <ul class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
@@ -62,7 +52,6 @@
                         <i class="fas fa-plus"></i> Ajouter une image
                     </button>
                 </fieldset>
-
                 <fieldset class="form-group">
                     <label>Video(s)</label>
                     <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
@@ -86,17 +75,12 @@
                         <i class="fas fa-plus"></i> Ajouter une vidéo
                     </button>
                 </fieldset>
-
                 <button type="submit" class="btn btn-success" formnovalidate>
                     <i class="fas fa-download"></i> Enregistrer les modifications
                 </button>
-
                 {{ form_end(form) }}
-
             </div>
-
         </div>
-
     {% endblock %}
 
     {% block javascripts %}
