@@ -19,7 +19,7 @@ class VideoFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr-FR');
+        Factory::create('fr-FR');
 
         $tricks = $manager->getRepository(Trick::class)->findAll();
 

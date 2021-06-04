@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Twig\Environment;
 
@@ -80,7 +79,7 @@ class UserForgotPasswordController extends BaseController
     /**
      * @Route("/reset-password/{id}/{token}", name="app_reset_password")
      */
-    public function resetPassword($id, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function resetPassword($id, $token, Request $request)
     {
         $user = $this->userRepo->findOneBy(['id' => $id]);
 
@@ -98,7 +97,7 @@ class UserForgotPasswordController extends BaseController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $passwordToReset = $this->UserForgotPasswordManager->resetPassword($user);
+            $this->UserForgotPasswordManager->resetPassword($user);
 
             $request->getSession()->getFlashBag()->add('success', "Yop ! Ton mot de passe a été renouvelé ! :)");
 
