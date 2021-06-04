@@ -39,6 +39,4 @@ class VideoType extends AbstractType
             'label' => false,
         ]);
     }
-
-
 }

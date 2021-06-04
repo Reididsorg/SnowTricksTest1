@@ -36,4 +36,15 @@ jQuery(document).ready(function() {
         });
     });
 
+    /**
+     * Display photos in full size modal
+     */
+    $('.pop').on('click', function() {
+        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+        $('#imagemodal').modal('show');
+    });
+
+    $('.close').click(function() {
+        $('#imagemodal').modal('hide');
+    });
 });

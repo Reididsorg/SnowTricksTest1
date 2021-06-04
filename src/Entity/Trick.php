@@ -256,5 +256,4 @@ class Trick extends AbstractEntity
     {
         $this->category = $category;
     }
-
 }

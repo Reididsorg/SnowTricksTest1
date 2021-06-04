@@ -71,7 +71,19 @@
                         {% for image in trick.images %}
                             {% if loop.index > 1 %}
                                 <div class="trickImage mx-auto col-sm-6 col-md-4 col-lg-4 col-xl-3">
-                                    <img src="{{ asset(image.path ~ image.fileName) }}" width="100%" alt="{{ image.alt }}">
+                                    <a href="#" class="pop">
+                                        <img src="{{ asset(image.path ~ image.fileName) }}" width="100%" alt="{{ image.alt }}">
+                                    </a>
+                                    <div class="modal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog-perso">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <img src="" class="imagepreview" style="width: 100%;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             {% endif %}
                         {% endfor %}

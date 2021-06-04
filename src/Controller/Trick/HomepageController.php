@@ -48,6 +48,5 @@ class HomepageController extends AbstractController
         return $this->render('tricks/see_more_tricks.html.twig', [
             'tricks' => $moreTricks,
         ]);
-
     }
 }

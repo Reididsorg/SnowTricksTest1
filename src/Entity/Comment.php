@@ -84,5 +84,4 @@ class Comment extends AbstractEntity
     {
         $this->user = $user;
     }
-
 }
