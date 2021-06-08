@@ -46,7 +46,8 @@ class UserEditionManager
 
             // Remove old file
             $filePath = $this->targetDirectory . '/' . $userOriginalImage;
-            if (!is_null($userOriginalImage) && file_exists($filePath)) {
+            //if (!is_null($userOriginalImage) && file_exists($filePath)) {
+            if (!($userOriginalImage === null) && is_file($filePath)) {
                 unlink($filePath);
             }
         }

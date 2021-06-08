@@ -1,98 +1,98 @@
 .trickImage, .trickVideo {
-    margin: 20px;
+  margin: 20px;
 }
 
 .trickVideo iframe {
-    padding: 0 20px;
+  padding: 0 20px;
 }
 
 #mainImage {
-    position: relative;
-    text-align: center;
+  position: relative;
+  text-align: center;
 }
 
 #mainImage .centered {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #mainImage .centered h1 {
-    color: #AF2A63;
-    font-size: 3rem;
-    font-weight: bolder;
+  color: #AF2A63;
+  font-size: 3rem;
+  font-weight: bolder;
 }
 
 #mainImage .top-right {
-    position: absolute;
-    top: 5%;
-    left: 87%;
+  position: absolute;
+  top: 5%;
+  left: 87%;
 }
 
 @media (min-width: 768px) {
-    #mainImage .top-right {
-        font-size: 1.5rem;
-        left: 90%;
-    }
-    #mainImage .centered h1 {
-        font-size: 5rem;
-    }
+  #mainImage .top-right {
+    font-size: 1.5rem;
+    left: 90%;
+  }
+  #mainImage .centered h1 {
+    font-size: 5rem;
+  }
 }
 
 @media (min-width: 992px) {
-    #mainImage .top-right {
-        font-size: 1.5rem;
-        left: 92%;
-    }
-    #mainImage .centered h1 {
-        font-size: 5rem;
-    }
+  #mainImage .top-right {
+    font-size: 1.5rem;
+    left: 92%;
+  }
+  #mainImage .centered h1 {
+    font-size: 5rem;
+  }
 }
 
 @media (min-width: 1200px) {
-    #mainImage .top-right {
-        font-size: 2rem;
-        left: 92%;
-    }
-    #mainImage .centered h1 {
-        font-size: 6rem;
-    }
+  #mainImage .top-right {
+    font-size: 2rem;
+    left: 92%;
+  }
+  #mainImage .centered h1 {
+    font-size: 6rem;
+  }
 }
 
 @media (max-width: 767px) {
-    #seeMedias {
-        margin: 20px 0;
-        display: block;
-    }
-    #medias {
-        display: none;
-    }
+  #seeMedias {
+    margin: 20px 0;
+    display: block;
+  }
+  #medias {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
-    #seeMedias {
-        margin: 20px 0;
-        display: none;
-    }
-    #medias {
-        display: block;
-    }
+  #seeMedias {
+    margin: 20px 0;
+    display: none;
+  }
+  #medias {
+    display: block;
+  }
 }
 
 i.fas-plus {
-    color: #FFFFFF;
+  color: #FFFFFF;
 }
 
 .comment-img, .comment-text {
-    background-color : #FFFFFF;
-    padding: 10px;
+  background-color : #FFFFFF;
+  padding: 10px;
 }
 
 .modal-dialog-perso {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
 }

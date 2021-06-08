@@ -1,32 +1,32 @@
 form .form-group .custom-file {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 button[type=submit] {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .form-group {
-    width: 100%;
+  width: 100%;
 }
 
 form ul li a.remove-tag {
-    clear: both;
-    font-size: 1.5rem;
+  clear: both;
+  font-size: 1.5rem;
 }
 
 li.subForm {
-    background: #EDD0DC;
-    padding: 10px;
-    margin: 10px 0;
+  background: #EDD0DC;
+  padding: 10px;
+  margin: 10px 0;
 }
 
 ul.images li button.btn-danger {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }

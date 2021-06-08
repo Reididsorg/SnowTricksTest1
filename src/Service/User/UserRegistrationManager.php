@@ -39,7 +39,8 @@ class UserRegistrationManager
         $userEntity->setPassword($passwordCrypted);
 
         // If photo is uploaded in the form
-        if (!is_null($form->getData()->getImageFileName())) {
+        //if (!is_null($form->getData()->getImageFileName())) {
+        if (!($form->getData()->getImageFileName() === null)) {
             /** @var UploadedFile $imageFile */
             $imageFile = $form['imageFileName']->getData();
 

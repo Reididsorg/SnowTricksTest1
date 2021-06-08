@@ -1,33 +1,33 @@
 #signin > p {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 #signin p ~ p {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }
 
 #signin p {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 ul {
-    padding: 0;
+  padding: 0;
 }
 
 .alert.alert-danger {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1rem;
 }
 
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+  position: fixed;
+  left: 0;
+  bottom: 0;
 }

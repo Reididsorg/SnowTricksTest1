@@ -1,13 +1,13 @@
 jQuery(document).ready(function() {
-    $('#seeMedias').click(function(e) {
-        $('#medias').show();
+    $("#seeMedias").click(function(e) {
+        $("#medias").show();
     });
 
     /**
      * Simple (ugly) code to load more comments
      */
     var click = 0;
-    $('#loadMoreComments').on('click', function(e) {
+    $('#loadMoreComments').on("click", function(e) {
         click++;
         var offset = 5 * click;
         var limit = 0;
@@ -29,7 +29,7 @@ jQuery(document).ready(function() {
                     '    </div>\n' +
                     '</div>';
                     if (limit < 5) {
-                        $('#comments').append(commentToDisplay);
+                        $("#comments").append(commentToDisplay);
                     }
                 limit++;
             }
@@ -39,12 +39,12 @@ jQuery(document).ready(function() {
     /**
      * Display photos in full size modal
      */
-    $('.pop').on('click', function() {
-        $('.imagepreview').attr('src', $(this).find('img').attr('src'));
-        $('#imagemodal').modal('show');
+    $(".pop").on("click", function() {
+        $(".imagepreview").attr("src", $(this).find("img").attr("src"));
+        $("#imagemodal").modal("show");
     });
 
     $('.close').click(function() {
-        $('#imagemodal').modal('hide');
+        $('#imagemodal').modal("hide");
     });
 });

@@ -20,7 +20,7 @@ class UserTokenChecker
         $interval = $now->getTimestamp() - $passwordRequestedAt->getTimestamp();
 
         $daySeconds = 60 * 10;
-        $response = $interval > $daySeconds ? false : $reponse = true;
+        $response = $interval > $daySeconds ? false : true;
         return $response;
     }
 
