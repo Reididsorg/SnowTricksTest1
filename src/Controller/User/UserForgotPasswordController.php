@@ -44,7 +44,7 @@ class UserForgotPasswordController extends BaseController
         $this->urlGenerator = $urlGenerator;
         $this->flashBag = $flashBag;
         $this->userRepo = $userRepo;
-        $this->userForgotPasswordManager = $userForgotPasswordManager;
+        $this->UserForgotPasswordManager = $userForgotPasswordManager;
         $this->userTokenChecker = $userTokenChecker;
     }
 
