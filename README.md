@@ -26,10 +26,10 @@ jQuery 3.5.1
 
 4. Install fixtures
 
-	- symfony console doctrine:database:create
-	- symfony console doctrine:migrations:diff
-	- symfony console doctrine:migrations:migrate
-	- symfony console doctrine:fixtures:load
+	- bin/console doctrine:database:create
+	- bin/console doctrine:migrations:diff
+	- bin/console doctrine:migrations:migrate
+	- bin/console doctrine:fixtures:load
 
 - Test user : 
   login: Bruno
