@@ -24,25 +24,17 @@ jQuery 3.5.1
 
 	- composer install
 
-4. Launch Symfony server
-
-	- symfony serve -d
-
-5. Install fixtures
+4. Install fixtures
 
 	- symfony console doctrine:database:create
 	- symfony console doctrine:migrations:diff
 	- symfony console doctrine:migrations:migrate
 	- symfony console doctrine:fixtures:load
 
-6. Set MAILER vars in .env.local file at root project.
-
 - Test user : 
-  login: bruno
+  login: Bruno
   mdp: 12345
 
-Open local website in web browser : http://127.0.0.1:8000/
+Open local website in web browser :)
 
-:)
-
-# Codacy Badge
+## Codacy Badge
