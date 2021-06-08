@@ -175,7 +175,8 @@ class User extends AbstractEntity implements UserInterface
      */
     public function setUsername(?string $username): void
     {
-        $this->username = is_null($username) ? : $username;
+        //$this->username = is_null($username) ? : $username;
+        $this->username = ($username === null) ? : $username;
         //$this->username = $username;
     }
 
@@ -208,8 +209,9 @@ class User extends AbstractEntity implements UserInterface
      */
     public function setEmail(?string $email): void
     {
+        //$this->email = is_null($email) ? : $email;
+        $this->email = ($email === null) ? : $email;
         //$this->email = $email;
-        $this->email = is_null($email) ? : $email;
     }
 
     /**

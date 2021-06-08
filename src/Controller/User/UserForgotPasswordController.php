@@ -57,7 +57,7 @@ class UserForgotPasswordController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $passwordRequest = $this->UserForgotPasswordManager->askForNewPassword($form, $tokenGenerator);
+            $this->UserForgotPasswordManager->askForNewPassword($form, $tokenGenerator);
 
             $this->flashBag->add('success', 'Yop ! Un courriel vient de t\'être envoyé afin que tu puisses renouveler ton mot de passe. Le lien que tu recevras sera valide 24h.');
 

@@ -30,7 +30,8 @@ class TrickSaver
                 $imageFile = $form['images'][$i]['fileName']->getData();
 
                 // If no fileName : Error pointed to fileName field
-                if (is_null($imageElement->getFileName())) {
+                //if (is_null($imageElement->getFileName())) {
+                if ($imageElement->getFileName() === null) {
                     $formErrors[] = 'fileName';
                 }
 

@@ -49,7 +49,8 @@ class RemoveTrickController extends BaseController
         foreach($trick->getImages() as $trickImage)
         {
             $filePath = $this->targetDirectory . '/' . $trickImage->getFileName();
-            if (file_exists($filePath)) {
+            //if (file_exists($filePath)) {
+            if (is_file($filePath)) {
                 unlink($filePath);
             }
         }

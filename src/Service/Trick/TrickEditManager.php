@@ -211,7 +211,8 @@ class TrickEditManager
                             $imageFile = $form['images'][$key]['fileName']->getData();
 
                             // If no fileName : Error pointed to fileName field
-                            if (is_null($imageElement->getFileName())) {
+                            //if (is_null($imageElement->getFileName())) {
+                            if ($imageElement->getFileName() === null) {
                                 $formErrors[$key] = 'fileName';
                             }
 
