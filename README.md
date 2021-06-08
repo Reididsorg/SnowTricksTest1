@@ -18,7 +18,7 @@ jQuery 3.5.1
 
 	- git clone https://github.com/Reididsorg/SnowTricksTest1.git
 
-2. Clone .env file at root project and rename it .env.local file, in order to configure environment vars.
+2. Clone '.env' file at root project and rename it '.env.local', in order to configure environment vars (especially DATABASE_URL and MAILER_URL).
 
 3. Install dependancies
 
