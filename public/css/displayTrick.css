@@ -20,7 +20,7 @@
 }
 
 #mainImage .centered h1 {
-  color: #Af2a63;
+  color: #af2a63;
   font-size: 3rem;
   font-weight: bolder;
 }
@@ -36,6 +36,7 @@
     font-size: 1.5rem;
     left: 90%;
   }
+	
   #mainImage .centered h1 {
     font-size: 5rem;
   }
@@ -91,7 +92,7 @@ i.fas-plus {
 
 .comment-img,
 .comment-text {
-  background-color : #fff;
+  background-color: #fff;
   padding: 10px;
 }
 
