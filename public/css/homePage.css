@@ -16,7 +16,7 @@
 }
 
 #carouselExampleIndicators {
-  /*margin-bottom: 30px;*/
+  /* margin-bottom: 30px; */
 }
 
 .card {
@@ -53,6 +53,6 @@
 
 #seeMoreTricks {
   margin-bottom: 50px;
-  background-color: #AF2A63;
-  color: #FFFFFF;
+  background-color: #af2a63;
+  color: #fff;
 }

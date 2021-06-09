@@ -2,18 +2,12 @@
   margin-top: 40px;
 }
 
+#signin p {
+	margin-top: 40px;
+}
+
 #signin p ~ p {
   margin-top: 0;
-}
-
-footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-}
-
-#signin p {
-  margin-top: 40px;
 }
 
 ul {

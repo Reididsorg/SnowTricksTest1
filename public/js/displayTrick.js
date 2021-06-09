@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
      * Simple (ugly) code to load more comments
      */
     var click = 0;
-    $('#loadMoreComments').on("click", function(e) {
+    $("#loadMoreComments").on("click", function(e) {
         click++;
         var offset = 5 * click;
         var limit = 0;
@@ -45,6 +45,6 @@ jQuery(document).ready(function() {
     });
 
     $('.close').click(function() {
-        $('#imagemodal').modal("hide");
+        $("#imagemodal").modal("hide");
     });
 });

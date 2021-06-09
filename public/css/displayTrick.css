@@ -1,4 +1,5 @@
-.trickImage, .trickVideo {
+.trickImage,
+.trickVideo {
   margin: 20px;
 }
 
@@ -19,7 +20,7 @@
 }
 
 #mainImage .centered h1 {
-  color: #AF2A63;
+  color: #Af2a63;
   font-size: 3rem;
   font-weight: bolder;
 }
@@ -45,6 +46,7 @@
     font-size: 1.5rem;
     left: 92%;
   }
+	
   #mainImage .centered h1 {
     font-size: 5rem;
   }
@@ -55,6 +57,7 @@
     font-size: 2rem;
     left: 92%;
   }
+	
   #mainImage .centered h1 {
     font-size: 6rem;
   }
@@ -65,6 +68,7 @@
     margin: 20px 0;
     display: block;
   }
+	
   #medias {
     display: none;
   }
@@ -75,17 +79,19 @@
     margin: 20px 0;
     display: none;
   }
+	
   #medias {
     display: block;
   }
 }
 
 i.fas-plus {
-  color: #FFFFFF;
+  color: #fff;
 }
 
-.comment-img, .comment-text {
-  background-color : #FFFFFF;
+.comment-img,
+.comment-text {
+  background-color : #fff;
   padding: 10px;
 }
 
