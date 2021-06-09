@@ -67,7 +67,7 @@ jQuery(document).ready(function() {
     });
 
     // Handle the removal
-    $('.remove-element').click(function(e) {
+    $(".remove-element").click(function(e) {
         e.preventDefault();
         // Delete the whole li.subForm container
         $(this).parent().parent().parent().remove();
