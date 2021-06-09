@@ -38,3 +38,4 @@ jQuery 3.5.1
 Open local website in web browser :)
 
 ## Codacy Badge
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/789ea9a0b64d4f088b2f627e00e9bc7e)](https://www.codacy.com/gh/Reididsorg/SnowTricksTest1/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Reididsorg/SnowTricksTest1&amp;utm_campaign=Badge_Grade)
