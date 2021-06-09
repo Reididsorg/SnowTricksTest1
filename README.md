@@ -26,7 +26,7 @@ jQuery 3.5.1
 
 4. Install fixtures
 
-	- bin/console doctrine:database:create
+	- bin/console doctrine:database:create (or manually create database)
 	- bin/console doctrine:migrations:diff
 	- bin/console doctrine:migrations:migrate
 	- bin/console doctrine:fixtures:load
