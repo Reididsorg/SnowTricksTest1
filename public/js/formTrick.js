@@ -1,37 +1,3 @@
-jQuery(document).ready(function() {
-    // Get the ul that holds the collection of tags
-    var $imagesCollectionHolder = $("ul.images");
-    var $videosCollectionHolder = $("ul.videos");
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
-    $imagesCollectionHolder.data("index", $imagesCollectionHolder.find("li").length);
-    $videosCollectionHolder.data("index", $videosCollectionHolder.find("input").length);
-
-    $("body").on("click", ".add_item_link", function(e) {
-        var $collectionHolderClass = $(e.currentTarget).data("collectionHolderClass");
-        // add a new image form (see next code block)
-        addFormToCollection($collectionHolderClass);
-    })
-
-    // Handle the removal
-    $('.remove-element').click(function(e) {
-        e.preventDefault();
-        // Delete the whole li.subForm container
-        $(this).parent().parent().parent().remove();
-        // Delete also last hr
-        $(".separation").last().remove();
-        return false;
-    });
-
-    // To avoid invisible text in file input (Due to "bug with Bootstrap 4")
-    $(".custom-file-input").on("change", function(event) {
-        var inputFile = event.currentTarget;
-        $(inputFile).parent()
-            .find(".custom-file-label")
-            .html(inputFile.files[0].name);
-    });
-});
-
 function addFormToCollection($collectionHolderClass) {
     // Get the ul that holds the collection of tags
     var $collectionHolder = $("." + $collectionHolderClass);
@@ -64,7 +30,7 @@ function addFormToCollection($collectionHolderClass) {
     var $subFormLi = $('<li class="subForm"></li>').append($divRow);
 
     // Add the new form at the end of the list
-    $collectionHolder.append($subFormLi)
+    $collectionHolder.append($subFormLi);
 
     // Handle the removal
     $(".remove-element").click(function(e) {
@@ -85,3 +51,36 @@ function addFormToCollection($collectionHolderClass) {
     });
 }
 
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of tags
+    var $imagesCollectionHolder = $("ul.images");
+    var $videosCollectionHolder = $("ul.videos");
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $imagesCollectionHolder.data("index", $imagesCollectionHolder.find("li").length);
+    $videosCollectionHolder.data("index", $videosCollectionHolder.find("input").length);
+
+    $("body").on("click", ".add_item_link", function(e) {
+        var $collectionHolderClass = $(e.currentTarget).data("collectionHolderClass");
+        // add a new image form (see next code block)
+        addFormToCollection($collectionHolderClass);
+    });
+
+    // Handle the removal
+    $('.remove-element').click(function(e) {
+        e.preventDefault();
+        // Delete the whole li.subForm container
+        $(this).parent().parent().parent().remove();
+        // Delete also last hr
+        $(".separation").last().remove();
+        return false;
+    });
+
+    // To avoid invisible text in file input (Due to "bug with Bootstrap 4")
+    $(".custom-file-input").on("change", function(event) {
+        var inputFile = event.currentTarget;
+        $(inputFile).parent()
+            .find(".custom-file-label")
+            .html(inputFile.files[0].name);
+    });
+});
