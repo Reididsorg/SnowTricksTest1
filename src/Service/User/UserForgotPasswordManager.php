@@ -56,7 +56,7 @@ class UserForgotPasswordManager
             $bodyMail = $this->mailer->createBodyMail('user/user_mail_forgot_password.html.twig', [
                 'user' => $user
             ]);
-            $this->mailer->sendMessage('arsincitrusdev@gmail.com', $user->getEmail(), 'renouvellement du mot de passe', $bodyMail);
+            $this->mailer->sendMessage($_ENV['MAILER_EXP'], $user->getEmail(), 'renouvellement du mot de passe', $bodyMail);
         }
     }
 
