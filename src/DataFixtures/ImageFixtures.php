@@ -27,7 +27,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $mainImage->setName("Image principale " . $trick->getName());
             $mainImage->setAlt("Description de l'image principale " . $trick->getName());
             $mainImage->setFilename("trick-main-" . $i . ".png");
-            $mainImage->setPath("/img/tricks/main/");
+            $mainImage->setPath("img/tricks/main/");
             $mainImage->setTrick($trick);
             $mainImage->setMain(true);
 
@@ -35,21 +35,21 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $image1->setName("Image 1 " . $trick->getName());
             $image1->setAlt("Description de l'image 1 " . $trick->getName());
             $image1->setFilename("trick-thumbnail-" . $i . "-1.jpg");
-            $image1->setPath("/img/tricks/thumbnails/");
+            $image1->setPath("img/tricks/thumbnails/");
             $image1->setTrick($trick);
 
             $image2 = new Image();
             $image2->setName("Image 2 " . $trick->getName());
             $image2->setAlt("Description de l'image 2 " . $trick->getName());
             $image2->setFilename("trick-thumbnail-" . $i . "-2.jpg");
-            $image2->setPath("/img/tricks/thumbnails/");
+            $image2->setPath("img/tricks/thumbnails/");
             $image2->setTrick($trick);
 
             $image3 = new Image();
             $image3->setName("Image 3 " . $trick->getName());
             $image3->setAlt("Description de l'image 3 " . $trick->getName());
             $image3->setFilename("trick-thumbnail-" . $i . "-3.jpg");
-            $image3->setPath("/img/tricks/thumbnails/");
+            $image3->setPath("img/tricks/thumbnails/");
             $image3->setTrick($trick);
 
             $manager->persist($mainImage);
