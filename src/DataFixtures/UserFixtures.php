@@ -35,7 +35,7 @@ class UserFixtures extends Fixture
             $user1->setEmail('bruno@bruno.fr');
             $user1->setImageFileName('bruno.png');
             $user1->setImageAlt('Photo de profil de Bruno');
-            $user1->setImagePath('/img/user/');
+            $user1->setImagePath('img/user/');
             $user1->setIsActive(true);
             $manager->persist($user1);
 
@@ -47,7 +47,7 @@ class UserFixtures extends Fixture
             $user2->setEmail('samo@samo.fr');
             $user2->setImageFileName('samo.png');
             $user2->setImageAlt('Photo de profil de Samo');
-            $user2->setImagePath('/img/user/');
+            $user2->setImagePath('img/user/');
             $user2->setIsActive(true);
             $manager->persist($user2);
 
