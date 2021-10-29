@@ -70,6 +70,6 @@ class UserRegistrationManager
         $bodyMail = $this->mailer->createBodyMail('user/user_mail_registration.html.twig', [
             'user' => $userEntity
         ]);
-        $this->mailer->sendMessage('arsincitrusdev@gmail.com', $userEntity->getEmail(), 'Activation de ton compte', $bodyMail);
+        $this->mailer->sendMessage($_ENV['MAILER_EXP'], $userEntity->getEmail(), 'Activation de ton compte', $bodyMail);
     }
 }
